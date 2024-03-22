@@ -1,0 +1,24 @@
+#Part 1
+
+strategy = 2
+query = Ref
+path_to_genome_repository = /home/grandchamp/Bureau/post_doc/Work_germany/DESMAN/genomes_strat2
+path_to_transcriptome_repository = /home/grandchamp/Bureau/post_doc/Work_germany/DESMAN/transcriptomes_strat2
+TPM_threeshold = Default
+ORFs_definition = Default
+transcript_overlap = intergenic
+ORFs_choice = kozac_highest
+filter_genic = Default
+filter_TE = Default
+
+#Part 2
+
+link_database_outgroup_prot = /home/grandchamp/Bureau/post_doc/Work_germany/DESMAN/database_prot/All_Ants.fasta
+parameters_database_prot = Default
+link_database_outgroup_nucl = /home/grandchamp/Bureau/post_doc/Work_germany/DESMAN/database_nucl/Homo_sapiens.GRCh38.ncrna.fa
+parameters_database_nucl = 0.01,80,plus
+ 
+
+#Part 3
+synteny_window = 3
+premature_stop = Default
