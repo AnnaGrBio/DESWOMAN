@@ -44,6 +44,9 @@ The is 2 main strategy to run DESMAN :
 > [!WARNING]
 > DESMAN runs only under linux or OS distributions
 
+> [!IMPORTANT]
+> We encourage users to work with the container (**Option 2**)
+
 ## Option 1. Install manually
 
 DESMAN requires the installation of the following softwares
