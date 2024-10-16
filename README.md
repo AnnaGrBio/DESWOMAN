@@ -2,11 +2,11 @@
 > [!IMPORTANT]
 **DESMAN** is being benchmarked and corrected. Please wait for the publication and for the correct structuring of the code before using it.  
 
-**DESMAN** is a software that detect neORFs (precursors of _de novo_ genes), based on transcriptome data, and study their mutations within populations and/or species. 
+**DESMAN** (De novo Emergence, Shared Mutations, And Nucleotides) is a software that detect neORFs (precursors of _de novo_ genes), based on transcriptome data, and study their mutations within populations and/or species. 
 
 # Usage
 
-**DESMAN** DESMAN (De novo Emergence, Shared Mutations, And Nucleotides), performs runs with 3 main steps: 
+**DESMAN** (De novo Emergence, Shared Mutations, And Nucleotides), performs runs with 3 main steps: 
 - (1) detect neORF candidates in transcriptomes,
 - (2) validate the absence of homology to any known gene
 - (3) search for syntenic homologous sequences in outgroup genomes (+ optionaly transcriptomes) and analyzing coding mutations between homologs.
@@ -29,6 +29,80 @@ For example, let's say a user sequenced RNA-seq data from six different *D. mela
 * Select neORFs that show no homology to known proteins in Drosophila and, optionally, in outgroup species.
 * Determine which neORFs are expressed across multiple transcriptomes.
 
+> [!NOTE]
+A manual is available to access more precisely all steps made by DESMAN
+
 # Flowchart
 
 ![Flowchart](flowchart.png)
+
+# Install DESMAN
+
+The is 2 main strategy to run DESMAN : 
+* Install manually DESMAN dependencies on your computer before running DESMAN
+* Use the container where everything is set-up
+> [!WARNING]
+> DESMAN runs only under linux or OS distributions
+
+## Option 1. Install manually
+
+DESMAN requires the installation of the following softwares
+* BLAST (v2.12 or +) 
+* DIAMOND (v2.0.14.152 or +) 
+* GffRead (v0.12.7 or +) 
+
+
+Moreover, DESMAN is developped in python (v3.0 or +). It therefore requires to have python installed, with the following packages:
+
+* Biopython (vs 1.83) 
+* customtkinter (5.2.2) 
+
+### 1. Install [BLAST](https://www.ncbi.nlm.nih.gov/books/NBK569861/) (linux)
+
+```console
+user@comp:~/directory$ rpm -ivh ncbi-blast-2.2.18-1.x86\_64.rpm
+```
+
+### 2. Install [DIAMOND](https://github.com/bbuchfink/diamond/wiki) (linux)
+
+```console
+user@comp:~/directory$ wget http://github.com/bbuchfink/diamond/releases/download/v2.1.9/diamond-linux64.tar.gz
+user@comp:~/directory$ tar xzf diamond-linux64.tar.gz
+```
+
+
+### 3. Install [GffRead](https://github.com/gpertea/gffread) (linux)
+
+```console
+user@comp:~/directory$ cd /some/build/dir
+user@comp:~/directory$ git clone https://github.com/gpertea/
+user@comp:~/directory$ gffread
+user@comp:~/directory$ cd gffread
+user@comp:~/directory$ make release
+```
+
+### 4. Install [biopython](https://biopython.org/wiki/Download) (linux)
+
+```console
+user@comp:~/directory$ pip install biopython
+```
+
+### 5. Install [customTkinter](https://pypi.org/project/customtkinter/0.3/) (linux)
+
+```console
+user@comp:~/directory$ sudo apt-get install python3-tk
+user@comp:~/directory$ pip install customtkinter==0.3
+```
+
+## Option 2. Use the container
+
+
+# Run DESMAN
+
+DESMAN runs with python3. To run DESMAN, the user must call main_program.py, followed by the chosen Strategy. The strategies must be either **Strategy1** or **Strategy2**
+
+```console
+user@comp:~/directory$ python3 DESMAN.py Strategy1
+```
+
+# DESMAN options
