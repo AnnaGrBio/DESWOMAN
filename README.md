@@ -114,6 +114,8 @@ user@comp:~/directory$ python3 DESMAN.py Strategy1
 
 ## Optional parameters
 
+### Step 1 (Strategy1 and Strategy2)
+
 | option      | choices | default     | description     |
 | :---        |    :----:   |  :---: | :---  |
 | Minimum TPM threshold      | float       | 0.5   |  The threshold for transcript expression. Any transcripts with expression levels lower than this value will not be considered.  |
@@ -124,3 +126,9 @@ user@comp:~/directory$ python3 DESMAN.py Strategy1
 | ORFs to keep in candidate transcripts   | All ORFs, ORF start first, ORF higest kozac, ORFs longest   | longest      |Select specific ORFs in transcripts |
 | Set up a minimum size for 5'UTR and 3'UTR  |int, int   | 0,0      |With this option, you set a minimum size for the UTRs in the transcripts. By default, DESMAN does not impose any size filter for ORFs. Therefore, the selected ORF(s) in the transcript can start at the beginning of the transcript or have a stop codon at the end of the transcript |
 | Set up a minimum size for 5'UTR and 3'UTR  |int, int   | 0,0      |With this option, you set a minimum size for the UTRs in the transcripts. By default, DESMAN does not impose any size filter for ORFs. Therefore, the selected ORF(s) in the transcript can start at the beginning of the transcript or have a stop codon at the end of the transcript |
+
+### Step 2 (Strategy1 and Strategy2)
+
+> [!IMPORTANT]
+Running Part 2 is **optional**. In this part, all candidate neORFs filtered from Part 1 are screened for homology against target protein and/or nucleotide databases. Any neORFs that show homology to sequences from the provided datasets will be automatically removed from all neORF files generated in Part 1.
+If no database is provided to validate the fact that the candidate neORFs are orphan, **DESMAN** directly runs Part 3, and the candidate neORFs are the candidates from Step1 without the filtering of Step2.
