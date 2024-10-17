@@ -109,3 +109,12 @@ user@comp:~/directory$ python3 DESMAN.py Strategy1
 ```
 
 # DESMAN options
+
+## Mandatory parameters
+
+## Optional parameters
+
+| option      | choices | default     | description     |
+| :---        |    :----:   |          ---: | ---:  |
+| Header      | Title       | Here's this   |    |
+| Paragraph   | Text        | And more      | |
