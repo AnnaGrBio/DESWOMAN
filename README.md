@@ -114,7 +114,7 @@ user@comp:~/directory$ python3 DESMAN.py Strategy1
 
 ## Optional parameters
 
-### Step 1 (Strategy1 and Strategy2)
+### ${\color{red}Step 1 : \space}$  *(Strategy1 and Strategy2)*
 
 | option      | choices | default     | description     |
 | :---        |    :----:   |  :---: | :---  |
@@ -127,7 +127,7 @@ user@comp:~/directory$ python3 DESMAN.py Strategy1
 | Set up a minimum size for 5'UTR and 3'UTR  |int, int   | 0,0      |With this option, you set a minimum size for the UTRs in the transcripts. By default, DESMAN does not impose any size filter for ORFs. Therefore, the selected ORF(s) in the transcript can start at the beginning of the transcript or have a stop codon at the end of the transcript |
 | Set up a minimum size for 5'UTR and 3'UTR  |int, int   | 0,0      |With this option, you set a minimum size for the UTRs in the transcripts. By default, DESMAN does not impose any size filter for ORFs. Therefore, the selected ORF(s) in the transcript can start at the beginning of the transcript or have a stop codon at the end of the transcript |
 
-### Step 2 (Strategy1 and Strategy2)
+### ${\color{red}Step 2 : \space}$  *(Strategy1 and Strategy2)*
 
 > [!IMPORTANT]
 Running Part 2 is **optional**. In this part, all candidate neORFs filtered from Part 1 are screened for homology against target protein and/or nucleotide databases. Any neORFs that show homology to sequences from the provided datasets will be automatically removed from all neORF files generated in Part 1.
@@ -139,4 +139,6 @@ If no database is provided to validate the fact that the candidate neORFs are or
 | Parameters for protein BLAST  | Diamond options: "--sensitive" "--more-sensitive" "--very-sensitive" or "--ultra-sensitive"  | --more-sensitive   |  If no protein file is entered by the user, setting these parameters is not useful, as no protein BLAST will be performed  |
 | Link to DNA/RNA database for novelty validation  | Link to a DNA/RNA dataset  | no link provided   |  This parameter is mandatory for users who decide to perform a nucleotide BLAST (nucl BLAST) search. Here, the user must directly enter the name of the dataset that contains the DNA/RNA (and not stop at the folder). Moreover, only one dataset is allowed. Therefore, in the case of multiple datasets, all files have to be merged into one single file. If the user does not enter a DNA/RNA dataset, Step 2 (validation of lack of homology) will not be performed for DNA/RNA. If no protein dataset is provided either, Step 2 is not performed at all |
 | Parameters for nucleotide BLAST  | p-value : 0.1 0.01 0.001 0.0001  | 0.01   |  If no DNA/RNA file is entered by the user, setting these parameters is not useful, as no BLASTn will be performed.  |
+
+### ${\color{red}Step 3 : \space}$  *(Strategy1 only)*
 
