@@ -108,13 +108,65 @@ DESMAN runs with python3. To run DESMAN, the user must call main_program.py, fol
 user@comp:~/directory$ python3 DESMAN.py Strategy1
 ```
 
-# DESMAN options
+# DESMAN Setup the entry
 
-## Mandatory parameters
+## Strategy1
 
-## Optional parameters
+With **Strategy 1**, DESMAN uses an assembled transcriptome and its corresponding genome to extract candidate neORFs. It detects homologous sequences in syntenic regions of outgroup genomes and optionally uses transcriptomes to study mutations between neORFs and homologous hits. 
+Three fields must be filled in mandatorily in order to run DESMAN:
 
-### ${\color{red}Step 1 : \space}$  *(Strategy1 and Strategy2)*
+* **Query name**
+  Name of the query sample under study. The name assigned to the query genome and transcriptome is derived from the filename. For example, if a user is working with a transcriptome from \textit{Drosophila melanogaster}, named "Dmel.fa", then the query is called "Dmel".
+
+* **Genome directory**
+  The genome directory must contain:
+  * The genome of the query species/population/individual in FASTA format (accepted extensions: ".fa", ".fna", ".fasta"). The query genome is the genome associated with the transcriptome under study.
+  * All target genomes in FASTA format (accepted extensions: ".fa", ".fna", ".fasta"). The target genomes are the genomes of the species/populations/individuals in which outgroup homologous sequences of the query neORFs will be searched. A minimum of one target genome is mandatory.
+  * The corresponding gene annotation file for all genomes in the folder (1 query and 1 or more target genomes; accepted extensions: ".gff", ".gff3").
+* **Transcriptome directory**
+  The transcriptome directory must contain:
+  * The query transcriptome in FASTA format (accepted extensions: ".fa", ".fna", ".fasta").
+  * The corresponding transcript annotation file for the transcriptome (accepted extension: ".gtf").
+  * OPTIONAL: Transcriptomes with associated annotation files corresponding to target genomes from the genome folder.
+
+> [!IMPORTANT]
+The genome and transcriptome directories **MUST** be two different directories.
+
+> [!CAUTION]
+For each species/population/individual, the genome, transcriptome, and annotation files **must share the same name**, corresponding to the name of the query. 
+For example, if a user is working with a transcriptome from *Drosophila melanogaster*, named "Dmel.fa", the query is called "Dmel". The genome must be named "Dmel.fa" and its annotation file must be named "Dmel.gff" (or other accepted extension), the transcriptome must be named "Dmel.fa" and stored in the transcriptome directory, along with the transcriptome annotation file, which must be named "Dmel.gtf".
+
+> [!NOTE]
+Genome and transcriptome directories should **not** include filenames. For example, if the genomes are stored in "/home/genomes", the correct path is "/home/genomes" and **NOT** "/home/genomes/my_genome.fa". \\
+
+## Strategy2
+
+With **Strategy 2**, **DESMAN** uses several transcriptomes assembled by mapping RNA-seq reads onto the same genome and extracts candidate neORFs from all transcriptomes. It then assesses the orthology of the neORFs between transcriptomes. 
+Three fields must be filled in mandatorily in order to run DESMAN: 
+* **Query name**
+  Name of the reference genome used for assembling the transcriptomes. The name of the query genome is derived from the filename. For example, if a user assembled transcriptomes based on the genome of *Drosophila melanogaster* called "RefGenome.fa", then the query is called "RefGenome".
+* **Genome directory**
+  The genome directory must contain:
+  * The reference genome, used for assembling the transcriptomes, in FASTA format (accepted extensions: ".fa", ".fna", ".fasta").
+  * The corresponding gene annotation file for the reference genomes(accepted extensions: ".gff", ".gff3")
+* **Transcriptome directory**
+  The transcriptome directory must contain :
+  * All query transcriptome in FASTA format(accepted extensions: ".fa", ".fna", ".fasta")
+  * The corresponding transcript annotation file for all transcriptome (accepted extension: ".gtf")
+ 
+> [!IMPORTANT]
+The genome and transcriptome directories **must** be two different directories.
+
+> [!CAUTION]
+In the genome folder, the name of the reference genome **must** be the same for both the genome and its annotation files (e.g., "RefGenome.fa" and "RefGenome.gff").
+In the transcriptome folder, the name of each transcriptome **must** be the same for both the transcriptome and its annotation files (e.g., "DrosoKidney.fa" and "DrosoKidney.gtf"; "DrosoBrain.fa" and "DrosoBrain.gtf").
+
+> [!NOTE]
+Genome and transcriptome directories should **not** include filenames. For example, if the genomes are stored in "/home/genomes", the path is "/home/genomes" and **NOT** "/home/genomes/my_genome.fa".
+
+# DESMAN Optional parameters
+
+## ${\color{red}Step 1 : \space}$  *(Strategy1 and Strategy2)*
 
 | option      | choices | default     | description     |
 | :---        |    :----:   |  :---: | :---  |
@@ -127,7 +179,7 @@ user@comp:~/directory$ python3 DESMAN.py Strategy1
 | Set up a minimum size for 5'UTR and 3'UTR  |int, int   | 0,0      |With this option, you set a minimum size for the UTRs in the transcripts. By default, DESMAN does not impose any size filter for ORFs. Therefore, the selected ORF(s) in the transcript can start at the beginning of the transcript or have a stop codon at the end of the transcript |
 | Set up a minimum size for 5'UTR and 3'UTR  |int, int   | 0,0      |With this option, you set a minimum size for the UTRs in the transcripts. By default, DESMAN does not impose any size filter for ORFs. Therefore, the selected ORF(s) in the transcript can start at the beginning of the transcript or have a stop codon at the end of the transcript |
 
-### ${\color{red}Step 2 : \space}$  *(Strategy1 and Strategy2)*
+## ${\color{red}Step 2 : \space}$  *(Strategy1 and Strategy2)*
 
 > [!IMPORTANT]
 Running Part 2 is **optional**. In this part, all candidate neORFs filtered from Part 1 are screened for homology against target protein and/or nucleotide databases. Any neORFs that show homology to sequences from the provided datasets will be automatically removed from all neORF files generated in Part 1.
@@ -140,5 +192,5 @@ If no database is provided to validate the fact that the candidate neORFs are or
 | Link to DNA/RNA database for novelty validation  | Link to a DNA/RNA dataset  | no link provided   |  This parameter is mandatory for users who decide to perform a nucleotide BLAST (nucl BLAST) search. Here, the user must directly enter the name of the dataset that contains the DNA/RNA (and not stop at the folder). Moreover, only one dataset is allowed. Therefore, in the case of multiple datasets, all files have to be merged into one single file. If the user does not enter a DNA/RNA dataset, Step 2 (validation of lack of homology) will not be performed for DNA/RNA. If no protein dataset is provided either, Step 2 is not performed at all |
 | Parameters for nucleotide BLAST  | p-value : 0.1 0.01 0.001 0.0001  | 0.01   |  If no DNA/RNA file is entered by the user, setting these parameters is not useful, as no BLASTn will be performed.  |
 
-### ${\color{red}Step 3 : \space}$  *(Strategy1 only)*
+## ${\color{red}Step 3 : \space}$  *(Strategy1 only)*
 
