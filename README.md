@@ -1,3 +1,7 @@
+# DESWOMAN
+
+![DESWOMAN](DESWOMAN.png)
+
 # Introduction
 > [!IMPORTANT]
 **DESMAN** is being benchmarked and corrected. Please wait for the publication and for the correct structuring of the code before using it.  
