@@ -1,6 +1,6 @@
 # DESWOMAN
 
-![DESWOMAN](DESWOMAN.png)
+![DESWOMAN](DESWOMAN_small.png)
 
 # Introduction
 > [!IMPORTANT]
