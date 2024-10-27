@@ -4,18 +4,18 @@
 
 # Introduction
 > [!IMPORTANT]
-**DESMAN** is being benchmarked and corrected. Please wait for the publication and for the correct structuring of the code before using it.  
+**DESWOMAN** is being benchmarked and corrected. Please wait for the publication and for the correct structuring of the code before using it.  
 
-**DESMAN** (De novo Emergence, Shared Mutations, And Nucleotides) is a software that detect neORFs (precursors of _de novo_ genes), based on transcriptome data, and study their mutations within populations and/or species. 
+**DESWOMAN** (De novo Emergence, Shared Mutations, And Nucleotides) is a software that detect neORFs (precursors of _de novo_ genes), based on transcriptome data, and study their mutations within populations and/or species. 
 
 # Usage
 
-**DESMAN** (De novo Emergence, Shared Mutations, And Nucleotides), performs runs with 3 main steps: 
+**DESWOMAN** (*De novo* Emergence Study With Outgroup MutAtioNs), performs runs with 3 main steps: 
 - (1) detect neORF candidates in transcriptomes,
 - (2) validate the absence of homology to any known gene
 - (3) search for syntenic homologous sequences in outgroup genomes (+ optionaly transcriptomes) and analyzing coding mutations between homologs.
 
-DESMAN is available as a user-friendly graphical user interface, offering users a high degree of flexibility with various options. Regardless of its flexibility, **DESMAN** can operate under two distinct strategies.
+**DESWOMAN** is available as a user-friendly graphical user interface, offering users a high degree of flexibility with various options. Regardless of its flexibility, **DESWOMAN** can operate under two distinct strategies.
 
 **$${\color{orange}Strategy 1 : \space}$$** \
 The user possesses: 1 transcriptome assembled with a reference genome and several optional outgroup genomes (with corresponding transcriptomes, if available). The transcriptome has been assembled by mapping stranded RNA-seq data to the reference genome, and the user aims to determine whether this transcriptome contains neORFs. Additionally, the user seeks to detect whether these neORF candidates can be found in the outgroup genomes and to what extent they are conserved. 
@@ -34,32 +34,32 @@ For example, let's say a user sequenced RNA-seq data from six different *D. mela
 * Determine which neORFs are expressed across multiple transcriptomes.
 
 > [!NOTE]
-A manual is available to access more precisely all steps made by DESMAN
+A manual is available to access more precisely all steps made by DESWOMAN
 
 # Flowchart
 
 ![Flowchart](flowchart.png)
 
-# Install DESMAN
+# Install DESWOMAN
 
-The is 2 main strategy to run DESMAN : 
-* Install manually DESMAN dependencies on your computer before running DESMAN
+The is 2 main strategy to run DESWOMAN : 
+* Install manually DESWOMAN dependencies on your computer before running DESWOMAN
 * Use the container where everything is set-up
 > [!WARNING]
-> DESMAN runs only under linux or OS distributions
+> DESWOMAN runs only under linux or OS distributions
 
 > [!IMPORTANT]
 > We encourage users to work with the container (**Option 2**)
 
 ## Option 1. Install manually
 
-DESMAN requires the installation of the following softwares
+DESWOMAN requires the installation of the following softwares
 * BLAST (v2.12 or +) 
 * DIAMOND (v2.0.14.152 or +) 
 * GffRead (v0.12.7 or +) 
 
 
-Moreover, DESMAN is developped in python (v3.0 or +). It therefore requires to have python installed, with the following packages:
+Moreover, DESWOMAN is developped in python (v3.0 or +). It therefore requires to have python installed, with the following packages:
 
 * Biopython (vs 1.83) 
 * customtkinter (5.2.2) 
@@ -104,20 +104,20 @@ user@comp:~/directory$ pip install customtkinter==0.3
 ## Option 2. Use the container
 
 
-# Run DESMAN
+# Run DESWOMAN
 
-DESMAN runs with python3. To run DESMAN, the user must call main_program.py, followed by the chosen Strategy. The strategies must be either **Strategy1** or **Strategy2**
+DESWOMAN runs with python3. To run DESWOMAN, the user must call main_program.py, followed by the chosen Strategy. The strategies must be either **Strategy1** or **Strategy2**
 
 ```console
-user@comp:~/directory$ python3 DESMAN.py Strategy1
+user@comp:~/directory$ python3 DESWOMAN.py Strategy1
 ```
 
-# DESMAN Setup the entry
+# DESWOMAN Setup the entry
 
 ## Strategy1
 
-With **Strategy 1**, DESMAN uses an assembled transcriptome and its corresponding genome to extract candidate neORFs. It detects homologous sequences in syntenic regions of outgroup genomes and optionally uses transcriptomes to study mutations between neORFs and homologous hits. 
-Three fields must be filled in mandatorily in order to run DESMAN:
+With **Strategy 1**, DESWOMAN uses an assembled transcriptome and its corresponding genome to extract candidate neORFs. It detects homologous sequences in syntenic regions of outgroup genomes and optionally uses transcriptomes to study mutations between neORFs and homologous hits. 
+Three fields must be filled in mandatorily in order to run DESWOMAN:
 
 * **Query name**
   Name of the query sample under study. The name assigned to the query genome and transcriptome is derived from the filename. For example, if a user is working with a transcriptome from \textit{Drosophila melanogaster}, named "Dmel.fa", then the query is called "Dmel".
@@ -145,8 +145,8 @@ Genome and transcriptome directories should **not** include filenames. For examp
 
 ## Strategy2
 
-With **Strategy 2**, **DESMAN** uses several transcriptomes assembled by mapping RNA-seq reads onto the same genome and extracts candidate neORFs from all transcriptomes. It then assesses the orthology of the neORFs between transcriptomes. 
-Three fields must be filled in mandatorily in order to run DESMAN: 
+With **Strategy 2**, **DESWOMAN** uses several transcriptomes assembled by mapping RNA-seq reads onto the same genome and extracts candidate neORFs from all transcriptomes. It then assesses the orthology of the neORFs between transcriptomes. 
+Three fields must be filled in mandatorily in order to run DESWOMAN: 
 * **Query name**
   Name of the reference genome used for assembling the transcriptomes. The name of the query genome is derived from the filename. For example, if a user assembled transcriptomes based on the genome of *Drosophila melanogaster* called "RefGenome.fa", then the query is called "RefGenome".
 * **Genome directory**
@@ -168,7 +168,7 @@ In the transcriptome folder, the name of each transcriptome **must** be the same
 > [!NOTE]
 Genome and transcriptome directories should **not** include filenames. For example, if the genomes are stored in "/home/genomes", the path is "/home/genomes" and **NOT** "/home/genomes/my_genome.fa".
 
-# DESMAN Optional parameters
+# DESWOMAN Optional parameters
 
 ## ${\color{red}Step 1 : \space}$  *(Strategy1 and Strategy2)*
 
@@ -178,16 +178,16 @@ Genome and transcriptome directories should **not** include filenames. For examp
 | Filter transcripts overlapping with TEs   | boolean        | False      |This option filters the transcripts that overlap with TEs. This option only works if the genomes have been masked for TEs during annotation |
 | Remove transcripts with unknown (".") orientation   | boolean        | False      |This option removes all transcripts whose orientation is unknown ("." in the GTF file) |
 | Genomic position of candidate neORFs (based on transcript position)   | Intergenic  Intronic  Antisense  Genic     | Intergenic      |This option allows to select the genomic location of the transcripts. the options are cumulative for this setting |
-| Remove genic splice variants   | boolean   | False      |DESMAN will filter the ORFs located on *de novo* transcripts whose one or more spliced variants overlap with a gene. |
+| Remove genic splice variants   | boolean   | False      |DESWOMAN will filter the ORFs located on *de novo* transcripts whose one or more spliced variants overlap with a gene. |
 | ORFs to keep in candidate transcripts   | All ORFs, ORF start first, ORF higest kozac, ORFs longest   | longest      |Select specific ORFs in transcripts |
-| Set up a minimum size for 5'UTR and 3'UTR  |int, int   | 0,0      |With this option, you set a minimum size for the UTRs in the transcripts. By default, DESMAN does not impose any size filter for ORFs.  Therefore, the selected ORF(s) in the transcript can start at the beginning of the transcript or have a stop codon at the end of the transcript |
-| Set up a minimum size for 5'UTR and 3'UTR  |int, int   | 0,0      |With this option, you set a minimum size for the UTRs in the transcripts. By default, DESMAN does not impose any size filter for ORFs. Therefore, the selected ORF(s) in the transcript can start at the beginning of the transcript or have a stop codon at the end of the transcript |
+| Set up a minimum size for 5'UTR and 3'UTR  |int, int   | 0,0      |With this option, you set a minimum size for the UTRs in the transcripts. By default, DESWOMAN does not impose any size filter for ORFs.  Therefore, the selected ORF(s) in the transcript can start at the beginning of the transcript or have a stop codon at the end of the transcript |
+| Set up a minimum size for 5'UTR and 3'UTR  |int, int   | 0,0      |With this option, you set a minimum size for the UTRs in the transcripts. By default, DESWOMAN does not impose any size filter for ORFs. Therefore, the selected ORF(s) in the transcript can start at the beginning of the transcript or have a stop codon at the end of the transcript |
 
 ## ${\color{red}Step 2 : \space}$  *(Strategy1 and Strategy2)*
 
 > [!IMPORTANT]
 Running Part 2 is **optional**. In this part, all candidate neORFs filtered from Part 1 are screened for homology against target protein and/or nucleotide databases. Any neORFs that show homology to sequences from the provided datasets will be automatically removed from all neORF files generated in Part 1.
-If no database is provided to validate the fact that the candidate neORFs are orphan, **DESMAN** directly runs Part 3, and the candidate neORFs are the candidates from Step1 without the filtering of Step2.
+If no database is provided to validate the fact that the candidate neORFs are orphan, **DESWOMAN** directly runs Part 3, and the candidate neORFs are the candidates from Step1 without the filtering of Step2.
 
 | option      | choices | default     | description     |
 | :---        |    :----:   |  :---: | :---  |
@@ -198,22 +198,22 @@ If no database is provided to validate the fact that the candidate neORFs are or
 
 ## ${\color{red}Step 3 : \space}$  *(Strategy1 only)*
 
-In Part 3 of \textbf{Strategy 1}, DESMAN searches for sequences homologous to candidate neORFs in outgroup genomes and studies their mutations.
+In Part 3 of \textbf{Strategy 1}, DESWOMAN searches for sequences homologous to candidate neORFs in outgroup genomes and studies their mutations.
 
-Part 3 is NOT optional. Therefore, in order to run DESMAN, at least **one outgroup genome with its annotation file** has to be provided.
+Part 3 is NOT optional. Therefore, in order to run DESWOMAN, at least **one outgroup genome with its annotation file** has to be provided.
 For example, let’s say a user is studying a transcriptome from an individual A of *Drosophila melanogaster* and wants to know if the selected neORFs detected in Parts 1 and 2 are conserved in the genomes of other individuals B, C, and D from the same species. Let’s say the user names the genomes "queryA.fa," "TargetB.fa," "TargetC.fa," and "TargetD.fa," and the corresponding annotations are "queryA.gff," "TargetB.gff," "TargetC.gff," and "TargetD.gff." <br> <br>
-If all these files are stored in the same repository, DESMAN will automatically search for homologous sequences of neORFs in TargetB, C, and D. If the target genomes are not present in the directory, DESMAN will not perform Part 3.
+If all these files are stored in the same repository, DESWOMAN will automatically search for homologous sequences of neORFs in TargetB, C, and D. If the target genomes are not present in the directory, DESWOMAN will not perform Part 3.
 
 
 > [!IMPORTANT]
-In step 3 **Strategy1**, the user can additionally store transcriptomes corresponding to the target genomes. The transcriptomes must be stored in the query transcriptome directory. In this case, DESMAN can assess the transcription status of the homologous sequences of neORFs for genomes with associated transcriptomes. <br> For example, the genome repository contains: "queryA.fa," "TargetB.fa," "TargetC.fa," and "TargetD.fa," and the corresponding annotations are: "queryA.gff," "TargetB.gff," "TargetC.gff," and "TargetD.gff." 
+In step 3 **Strategy1**, the user can additionally store transcriptomes corresponding to the target genomes. The transcriptomes must be stored in the query transcriptome directory. In this case, DESWOMAN can assess the transcription status of the homologous sequences of neORFs for genomes with associated transcriptomes. <br> For example, the genome repository contains: "queryA.fa," "TargetB.fa," "TargetC.fa," and "TargetD.fa," and the corresponding annotations are: "queryA.gff," "TargetB.gff," "TargetC.gff," and "TargetD.gff." 
 To add the transcription feature detection, the transcriptome repository must contain, in addition to "queryA.fa" and "queryA.gtf," the transcriptomes: "TargetB.fa," "TargetC.fa," and "TargetD.fa," along with the transcript annotation files: "TargetB.gtf," "TargetC.gtf," and "TargetD.gtf."
 
 
 | option      | choices | default     | description     |
 | :---        |    :----:   |  :---: | :---  |
 | Determine homology between annotated genes  | Reciprocal BEST hit **or** Reciprocal hit   | Reciprocal hit   |  By default, homology between annotated genes from two different genomes is determined by simple reciprocal hits between the longest produced proteins. With Reciprocal BEST hit, homology between annotated genes from two different genomes is determined by reciprocal **best** hits between the longest produced proteins.  |
-| Synteny window for nchomology search  | 0; 1; 2; 3; 4; 5  | 2   |  DESMAN will BLAST the candidate neORFs against all target genomes. Then, for ORFs that have hits, the user can specify if she/he wants the hit to be syntenic to the query ORF. Synteny is defined by searching for homologous annotated genes surrounding the query ORF and the hit. <br> Depending on how close the target genomes are in terms of phylogeny (very close or far away), the user can set a synteny window. For example, a synteny window of 2 means that one of the 2 genes on the left and one of the 2 genes on the right of the query ORF has to be homologous to one of the 2 genes on the right and one of the 2 genes on the left of the target hit (see step by step description). All hits that are not syntenic will be discarded.<br> A window of "0" means no synteny search. If the user sets up a window of 0, in the case of multiple hits for one ORF in a target genome, only the hit with the highest p-value will be selected, regardless of its synteny.<br> By default, DESMAN uses a synteny window of **2**.  |
-| Limit sequence percentage where to detect premature STOP codons  | percentage  | 50%   |  Among all features, DESMAN searches for the presence of premature stop codons in the non-coding homolog that would not be present in the query ORF. The user can set a limit percentage of the sequence in which to search for such stop codons in the non-coding homolog. <br> For example, a value of 60% would mean that DESMAN searches for stop codons only in the first 60% of the nucleotides of the sequence alignment. <br> By default, DESMAN searches for stop codons in the first 50\% of the alignments. |
+| Synteny window for nchomology search  | 0; 1; 2; 3; 4; 5  | 2   |  DESWOMAN will BLAST the candidate neORFs against all target genomes. Then, for ORFs that have hits, the user can specify if she/he wants the hit to be syntenic to the query ORF. Synteny is defined by searching for homologous annotated genes surrounding the query ORF and the hit. <br> Depending on how close the target genomes are in terms of phylogeny (very close or far away), the user can set a synteny window. For example, a synteny window of 2 means that one of the 2 genes on the left and one of the 2 genes on the right of the query ORF has to be homologous to one of the 2 genes on the right and one of the 2 genes on the left of the target hit (see step by step description). All hits that are not syntenic will be discarded.<br> A window of "0" means no synteny search. If the user sets up a window of 0, in the case of multiple hits for one ORF in a target genome, only the hit with the highest p-value will be selected, regardless of its synteny.<br> By default, DESWOMAN uses a synteny window of **2**.  |
+| Limit sequence percentage where to detect premature STOP codons  | percentage  | 50%   |  Among all features, DESWOMAN searches for the presence of premature stop codons in the non-coding homolog that would not be present in the query ORF. The user can set a limit percentage of the sequence in which to search for such stop codons in the non-coding homolog. <br> For example, a value of 60% would mean that DESWOMAN searches for stop codons only in the first 60% of the nucleotides of the sequence alignment. <br> By default, DESWOMAN searches for stop codons in the first 50\% of the alignments. |
 
 
