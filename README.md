@@ -135,20 +135,20 @@ transcript_overlap = intronic, genic  // allowed genomic overlap, separated by a
 ORFs_choice = longest // ORF choice (string). Default : longest
 five_prime = 0 // minimum length of 5'UTR (int). Default : 0
 three_prime = 0 // minimum length of 3'UTR (integer). Default : 0
-filter_genic = True // filter genic transcripts (bolean). Default : False
+filter_genic = False // filter genic transcripts (bolean). Default : False
 filter_TE = False // filter transcripts overlaping with transposable elements (bolean). Default : False
 rm_undir_transc = False // remove unoriented transcripts (bolean). Default : False
 
 #Part 2
-link_database_outgroup_prot =  /home/grandchamp/Bureau/post_doc/Work_germany/Training_DESMAN/training_file/outgroup_mammals/peptides/Non_mammal/all_non_mammal_peptide.fa 
-parameters_database_prot =   --more-sensitive
-link_database_outgroup_nucl = /home/grandchamp/Bureau/post_doc/Work_germany/Training_DESMAN/training_file/outgroup_mammals/DNA_rna_seq/Non_mammal/all_non_mammal_ncrna.fa
-parameters_database_nucl =  0.01
+link_database_outgroup_prot =  file path  // path to protein dataset. OPTIONAL
+parameters_database_prot =  --more-sensitive // DIAMOND BLAST option. Default : --more-sensitive
+link_database_outgroup_nucl = file path  // path to DNA/RNA dataset. OPTIONAL
+parameters_database_nucl =  0.01 // BLASTn option. Default : 0.01
 
 #Part 3 (Only Strategy 1)
-rec_best_hit =  True
-synteny_window = 0
-premature_stop = 100
+rec_best_hit =  False // consider orthology with reciprocal BEST hits instead of hits (bolean). Default : False
+synteny_window = 2 // Lenght of the synteny window. Default : 2
+premature_stop = 50 // Percentage of the aligned homolog where to detect a premature stop codin. Default : 50
 ```
 
 ## Strategy1
