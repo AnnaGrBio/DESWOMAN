@@ -281,6 +281,8 @@ In the folder **DESWOMAN_denovo_output** (created by **DESwoMAN** in the query g
 
 - **information_file.txt**: Genomic information about neORFs.
 - **Table_output_step3.txt**
+
+  
 **Table_output_step3.txt** contains all the information about the hits and the studied properties of the alignments. More precisely, the output file includes each candidate neORF filtered by steps 1 and 2 (optional), along with the following information:
 
 - **neORF name**: Name of all neORFs filtered by step 2.
@@ -332,6 +334,16 @@ In the folder **DESWOMAN_denovo_output** (created by **DESwoMAN** in the query g
 - **denovo in ali**: Aligned sequence of the neORF (if splicing).
   - `str`: Sequence.
   - `NA`: Not applicable.
+ 
+## Strategy2
+
+In the folder **DESWOMAN_denovo_output** (created by **DESwoMAN** in the query genome folder), **DESwoMAN** generates:
+- **denovo_protein.fa**: Name of all neORFs filtered by step 2 (protein).
+- **denovo_nucl.fa**: Name of all neORFs filtered by step 2 (nucl).
+- **denovo_unspliced_lowered_introns.fa**: Name of all neORFs filtered by step 2 with intron in lower letter if they have introns.
+- **denovo_transcripts.fa**: de novo transcripts filtered by step 1.
+- **information_file.txt**: Genomic information about neORFs.
+- **Orthogroup_output_step3.txt**: This file contains all detected orthogroups with the name of each neORF from each transcriptome. An orthogroup can contain 2 or more ORFs from the same transcriptome. If a gene generates for example 3 spliced variants that all contain ORFs that overlap (but are not fully overlapping), then the 3 ORFs would be considered as orthologs.
     
 # Credits
 # Citation
