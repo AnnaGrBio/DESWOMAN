@@ -270,5 +270,58 @@ To add the transcription feature detection, the transcriptome repository must co
 | Limit sequence percentage where to detect premature STOP codons  | percentage  | 50%   |  Among all features, **DESwoMAN** searches for the presence of premature stop codons in the non-coding homolog that would not be present in the query ORF. The user can set a limit percentage of the sequence in which to search for such stop codons in the non-coding homolog. <br> For example, a value of 60% would mean that **DESwoMAN** searches for stop codons only in the first 60% of the nucleotides of the sequence alignment. <br> By default, **DESwoMAN** searches for stop codons in the first 50\% of the alignments. |
 
 # Output
+
+In the folder **DESWOMAN_denovo_output** (created by **DESwoMAN** in the query genome folder), **DESwoMAN** generates a file named "Table_output_step3.txt." This output file contains all the information about the hits and the studied properties of the alignments. More precisely, the output file includes each candidate neORF filtered by steps 1 and 2 (optional), along with the following information:
+
+- **neORF name**: Name of all neORFs filtered by step 2.
+- **target genome**: Name of the target genome under investigation.
+- **validated hit**: Detection of a homologous sequence in the target genome (based on homology and synteny criteria).
+  - `A`: No correct hit was detected in this target genome.
+  - `P`: A correct hit was detected in this target genome.
+- **genomic position homolog**: Genomic position of the unspliced homologous hit in the target genome.
+  - `160990-161166-2RChromosome-r`: Start, Stop, chromosome, orientation.
+  - `NA`: Not applicable.
+- **start**: Presence of a start codon.
+  - `P`: Start in homolog that aligns to the start of the neORF.
+  - `A`: No start in homolog.
+  - `S`: Shifted start in homolog (start present in the first 20 nucleotides of the aligned homolog).
+  - `NA`: Not applicable.
+- **stop**: Presence of a stop codon.
+  - `P`: Stop in homolog that aligns to the end of the neORF.
+  - `A`: No stop in homolog.
+  - `NA`: Not applicable.
+- **Indels**: Total number of indels (number of substitutions + number of deletions).
+  - `int`: Number of indels.
+  - `NA`: Not applicable.
+- **perc seq not affected by frameshift**: Percentage of protein frame conservation between neORF and its homologous sequence.
+  - `int`: Score.
+  - `NA`: Not applicable.
+- **substitutions**: Number of substitutions between neORF and homologous sequence.
+  - `int`: Number of substitutions.
+  - `NA`: Not applicable.
+- **premature stop**: Presence of a premature stop codon in the fraction of the sequence indicated by the user.
+  - `A`: Absent.
+  - `P`: Present.
+  - `NA`: Not applicable.
+- **pos premature stop**: Position of a premature stop codon.
+  - `int`: Position in homolog.
+  - `NA`: Not applicable.
+- **transcription status**: Transcriptional status of the homolog.
+  - `Complete`: Homolog fully transcribed.
+  - `Partial`: Homolog partially transcribed.
+  - `Reverse`: Homolog transcribed in reverse.
+  - `Spliced`: The genomic position of the homolog is transcribed, but the homolog is not detected in the transcript.
+  - `Absent`: Homolog not transcribed.
+  - `NA`: Not applicable.
+- **intron lowered homolog**: Sequence of the homologous region, with intron positions in lowercase (if an intron is present in the neORF).
+  - `str`: Sequence.
+  - `NA`: Not applicable.
+- **homolog in ali**: Aligned sequence of the spliced homolog (if splicing).
+  - `str`: Sequence.
+  - `NA`: Not applicable.
+- **denovo in ali**: Aligned sequence of the neORF (if splicing).
+  - `str`: Sequence.
+  - `NA`: Not applicable.
+    
 # Credits
 # Citation
