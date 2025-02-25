@@ -5,9 +5,11 @@
 # Table of Contents  
 - [Introduction](#introduction)  
 - [Usage](#usage)  
-- [Flowchart](#flowchart)  
+- [Flowchart](#flowchart)
+- [Install DESwoMAN](#install-deswoman)   
 - [Run DESwoMAN](#run-deswoman)
-
+- [DESwoMAN Main Parameters](#deswoman-main-parameters)
+- [DESwoMAN Optional parameters](#deswoman-optional-parameters)
 
 # Introduction
 > [!IMPORTANT]
@@ -128,8 +130,6 @@ user@comp:~/directory$ python3 DESwoMAN.py Strategy1
 user@comp:~/directory$ python3 DESwoMAN.py Strategy1 param.config
 ```
 
-# **DESwoMAN** Parameters
-
 If **DESwoMAN** is launched with the graphical interface, the user can configure all parameters through the GUI. Alternatively, the user can use a configuration file.
 In this configuration file, all options are set by default. If DESwoMAN is run with default options, only the three mandatory parameters—**query**, **path_to_genome_repository**, and **path_to_transcriptome_repository**—are required to remain in the config file.
 Additionally, all parameters from Part 3 are specific to Strategy1. They can be included in the file when using Strategy2, but they will be ignored.
@@ -161,6 +161,8 @@ rec_best_hit =  False // consider orthology with reciprocal BEST hits instead of
 synteny_window = 2 // Lenght of the synteny window. Default : 2
 premature_stop = 50 // Percentage of the aligned homolog where to detect a premature stop codin. Default : 50
 ```
+
+# DESwoMAN Main Parameters
 
 ## Strategy1
 
