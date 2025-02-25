@@ -123,6 +123,10 @@ user@comp:~/directory$ python3 DESwoMAN.py Strategy1 param.config
 
 # **DESwoMAN** Setup the entry
 
+If **DESwoMAN** is launched with the graphical interface, the user can configure all parameters through the GUI. Alternatively, the user can use a configuration file.
+In this configuration file, all options are set by default. If DESwoMAN is run with default options, only the three mandatory parameters—**query**, **path_to_genome_repository**, and **path_to_transcriptome_repository**—are required to remain in the config file.
+Additionally, all parameters from Part 3 are specific to Strategy1. They can be included in the file when using Strategy2, but they will be ignored.
+
 ## Configuration file (param.config)
 
 ```console
