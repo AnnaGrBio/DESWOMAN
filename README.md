@@ -2,6 +2,13 @@
 
 ![DESwoMAN](DESWOMAN_small.png)
 
+# Table of Contents  
+- [Introduction](#introduction)  
+- [Usage](#usage)  
+- [Flowchart](#flowchart)  
+- [Run DESwoMAN](#run-deswoman)
+
+
 # Introduction
 > [!IMPORTANT]
 **DESwoMAN** is being benchmarked and corrected. Please wait for the publication and for the correct structuring of the code before using it.  
@@ -104,7 +111,7 @@ user@comp:~/directory$ pip install customtkinter==0.3
 ## Option 2. Use the container
 
 
-# Run **DESwoMAN**
+# Run DESwoMAN
 
 **DESwoMAN** runs with python3. To run **DESwoMAN**, the user must call DESwoMAN.py, followed by the chosen Strategy. The strategies must be either **Strategy1** or **Strategy2**
 By default, **DESwoMAN** runs with a GUI. However, the user can specify a configuration file. To do so, the path to the configuration file must be provided in the command line after the strategy.
@@ -121,7 +128,7 @@ user@comp:~/directory$ python3 DESwoMAN.py Strategy1
 user@comp:~/directory$ python3 DESwoMAN.py Strategy1 param.config
 ```
 
-# **DESwoMAN** Setup the entry
+# **DESwoMAN** Parameters
 
 If **DESwoMAN** is launched with the graphical interface, the user can configure all parameters through the GUI. Alternatively, the user can use a configuration file.
 In this configuration file, all options are set by default. If DESwoMAN is run with default options, only the three mandatory parameters—**query**, **path_to_genome_repository**, and **path_to_transcriptome_repository**—are required to remain in the config file.
