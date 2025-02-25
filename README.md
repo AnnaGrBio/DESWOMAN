@@ -10,6 +10,9 @@
 - [Run DESwoMAN](#run-deswoman)
 - [DESwoMAN Main Parameters](#deswoman-main-parameters)
 - [DESwoMAN Optional parameters](#deswoman-optional-parameters)
+- [Output](#output)
+- [Credits](#credits)
+- [Citation](#citation)
 
 # Introduction
 > [!IMPORTANT]
@@ -266,4 +269,6 @@ To add the transcription feature detection, the transcriptome repository must co
 | Synteny window for nchomology search  | 0; 1; 2; 3; 4; 5  | 2   |  **DESwoMAN** will BLAST the candidate neORFs against all target genomes. Then, for ORFs that have hits, the user can specify if she/he wants the hit to be syntenic to the query ORF. For genic, intronic and antisense neORFs, syntenic hits are hits overlapping with genes homologous to the gene that the neORF overlaps. For intergenic neORFS, synteny is defined by searching for homologous annotated genes surrounding the query ORF and the hit. <br> Depending on how close the target genomes are in terms of phylogeny (very close or far away), the user can set a synteny window. For example, a synteny window of 2 means that one of the 2 genes on the left and one of the 2 genes on the right of the query ORF has to be homologous to one of the 2 genes on the right and one of the 2 genes on the left of the target hit (see step by step description). All hits that are not syntenic will be discarded.<br> A window of "0" means no synteny search. If the user sets up a window of 0, in the case of multiple hits for one ORF in a target genome, only the hit with the highest p-value will be selected, regardless of its synteny.<br> By default, **DESwoMAN** uses a synteny window of **2**.  |
 | Limit sequence percentage where to detect premature STOP codons  | percentage  | 50%   |  Among all features, **DESwoMAN** searches for the presence of premature stop codons in the non-coding homolog that would not be present in the query ORF. The user can set a limit percentage of the sequence in which to search for such stop codons in the non-coding homolog. <br> For example, a value of 60% would mean that **DESwoMAN** searches for stop codons only in the first 60% of the nucleotides of the sequence alignment. <br> By default, **DESwoMAN** searches for stop codons in the first 50\% of the alignments. |
 
-
+# Output
+# Credits
+# Citation
