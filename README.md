@@ -271,7 +271,17 @@ To add the transcription feature detection, the transcriptome repository must co
 
 # Output
 
-In the folder **DESWOMAN_denovo_output** (created by **DESwoMAN** in the query genome folder), **DESwoMAN** generates a file named "Table_output_step3.txt." This output file contains all the information about the hits and the studied properties of the alignments. More precisely, the output file includes each candidate neORF filtered by steps 1 and 2 (optional), along with the following information:
+## Strategy1
+
+In the folder **DESWOMAN_denovo_output** (created by **DESwoMAN** in the query genome folder), **DESwoMAN** generates:
+- **denovo_protein.fa**: Name of all neORFs filtered by step 2 (protein).
+- **denovo_nucl.fa**: Name of all neORFs filtered by step 2 (nucl).
+- **denovo_unspliced_lowered_introns.fa**: Name of all neORFs filtered by step 2 with intron in lower letter if they have introns.
+- **denovo_transcripts.fa**: de novo transcripts filtered by step 1.
+
+- **information_file.txt**: Genomic information about neORFs.
+- **Table_output_step3.txt**
+**Table_output_step3.txt** contains all the information about the hits and the studied properties of the alignments. More precisely, the output file includes each candidate neORF filtered by steps 1 and 2 (optional), along with the following information:
 
 - **neORF name**: Name of all neORFs filtered by step 2.
 - **target genome**: Name of the target genome under investigation.
