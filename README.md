@@ -106,10 +106,19 @@ user@comp:~/directory$ pip install customtkinter==0.3
 
 # Run **DESwoMAN**
 
-**DESwoMAN** runs with python3. To run **DESwoMAN**, the user must call main_program.py, followed by the chosen Strategy. The strategies must be either **Strategy1** or **Strategy2**
+**DESwoMAN** runs with python3. To run **DESwoMAN**, the user must call DESwoMAN.py, followed by the chosen Strategy. The strategies must be either **Strategy1** or **Strategy2**
+By default, **DESwoMAN** runs with a GUI. However, the user can specify a configuration file. To do so, the path to the configuration file must be provided in the command line after the strategy.
+
+## With GUI
 
 ```console
 user@comp:~/directory$ python3 DESwoMAN.py Strategy1
+```
+
+## With configuration file
+
+```console
+user@comp:~/directory$ python3 DESwoMAN.py Strategy1 param.config
 ```
 
 # **DESwoMAN** Setup the entry
