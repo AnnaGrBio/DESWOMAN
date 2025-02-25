@@ -123,6 +123,34 @@ user@comp:~/directory$ python3 DESwoMAN.py Strategy1 param.config
 
 # **DESwoMAN** Setup the entry
 
+## Configuration file (param.config)
+
+```console
+#Part 1
+query = name // name of the query genome MANDATORY
+path_to_genome_repository = path // path to genome repository MANDATORY
+path_to_transcriptome_repository = path // path to transcriptome repository MANDATORY
+TPM_threeshold = 0.5 // float. Default : 0.5
+transcript_overlap = intronic, genic  // allowed genomic overlap, separated by a comma. Default : intergenic
+ORFs_choice = longest // ORF choice (string). Default : longest
+five_prime = 0 // minimum length of 5'UTR (int). Default : 0
+three_prime = 0 // minimum length of 3'UTR (integer). Default : 0
+filter_genic = True // filter genic transcripts (bolean). Default : False
+filter_TE = False // filter transcripts overlaping with transposable elements (bolean). Default : False
+rm_undir_transc = False // remove unoriented transcripts (bolean). Default : False
+
+#Part 2
+link_database_outgroup_prot =  /home/grandchamp/Bureau/post_doc/Work_germany/Training_DESMAN/training_file/outgroup_mammals/peptides/Non_mammal/all_non_mammal_peptide.fa 
+parameters_database_prot =   --more-sensitive
+link_database_outgroup_nucl = /home/grandchamp/Bureau/post_doc/Work_germany/Training_DESMAN/training_file/outgroup_mammals/DNA_rna_seq/Non_mammal/all_non_mammal_ncrna.fa
+parameters_database_nucl =  0.01
+
+#Part 3 (Only Strategy 1)
+rec_best_hit =  True
+synteny_window = 0
+premature_stop = 100
+```
+
 ## Strategy1
 
 With **Strategy 1**, **DESwoMAN** uses an assembled transcriptome and its corresponding genome to extract candidate neORFs. It detects homologous sequences in syntenic regions of outgroup genomes and optionally uses transcriptomes to study mutations between neORFs and homologous hits. 
