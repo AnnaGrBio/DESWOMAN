@@ -46,7 +46,7 @@ For example, let's say a user sequenced RNA-seq data from six different *D. mela
 * Determine which neORFs are expressed across multiple transcriptomes.
 
 > [!NOTE]
-A manual is available to access more precisely all steps made by **DESwoMAN**
+A manual is available for a more detailed overview of all steps performed by **DESwoMAN**.
 
 # Flowchart
 
@@ -118,7 +118,7 @@ user@comp:~/directory$ pip install customtkinter==0.3
 
 # Run DESwoMAN
 
-**DESwoMAN** runs with python3. To run **DESwoMAN**, the user must call DESwoMAN.py, followed by the chosen Strategy. The strategies must be either **Strategy1** or **Strategy2**
+**DESwoMAN** runs with Python 3. To run **DESwoMAN**, the user must call `DESwoMAN.py`, followed by the chosen strategy. The strategy must be either **Strategy1** or **Strategy2**.  
 By default, **DESwoMAN** runs with a GUI. However, the user can specify a configuration file. To do so, the path to the configuration file must be provided in the command line after the strategy.
 
 ## With GUI
