@@ -18,11 +18,11 @@
 > [!IMPORTANT]
 **DESwoMAN** is being benchmarked and corrected. Please wait for the publication and for the correct structuring of the code before using it.  
 
-**DESwoMAN** (De novo Emergence, Shared Mutations, And Nucleotides) is a software that detect precursors of _de novo_ genes : newly expressed Open Reading Frames (neORFs), based on transcriptome data, and study their mutations within populations and/or species. 
+**DESwoMAN** (De novo Emergence Study with outgroup MutAtioNs) is a software that detect precursors of _de novo_ genes : newly expressed Open Reading Frames (neORFs), based on transcriptome data, and study their mutations within populations and/or species. 
 
 # Usage
 
-**DESwoMAN** (*De novo* Emergence Study With Outgroup MutAtioNs), performs runs with 3 main steps: 
+**DESwoMAN** runs with 3 main steps: 
 - (1) detect neORF candidates in transcriptomes,
 - (2) validate the absence of homology to any known gene
 - (3) search for syntenic homologous sequences in outgroup genomes (+ optionaly transcriptomes) and analyzing coding mutations between homologs.
