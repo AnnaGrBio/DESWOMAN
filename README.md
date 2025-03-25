@@ -1,6 +1,6 @@
 # DESwoMAN
 
-![DESwoMAN](DESWOMAN_small.png)
+![DESwoMAN](DESWOMAN_logo_small_transp.png)
 
 # Table of Contents  
 - [Introduction](#introduction)  
