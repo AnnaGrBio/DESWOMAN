@@ -1,0 +1,25 @@
+[project]
+name = "deswoman"
+version = "0.8.1"
+description = "DESwoMAN is a software that detects precursors of de novo genes - newly expressed Open Reading Frames (neORFs) - based on transcriptome data and analyses their mutations within populations and/or species."
+readme = "README.md"
+authors = [
+    { name = "Anna Grandchamp", email = "anna.grandchamp@inserm.fr" }
+]
+requires-python = ">=3.10"  # TODO: is there a minimum and/or maximum required python version?
+dependencies = [
+    "biopython>=1.85",
+    "customtkinter>=5.2.2",
+]
+
+[project.scripts]
+deswoman = "deswoman.deswoman_runner:entry_point_main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[dependency-groups]
+lint = [
+    "ruff>=0.9.2",
+]
