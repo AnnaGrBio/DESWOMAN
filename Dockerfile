@@ -4,7 +4,7 @@ RUN apt-get update && \
     apt-get upgrade --yes
 
 # Install non-python dependencies
-RUN apt-get --yes install wget ncbi-blast+ gffread tk \
+RUN apt-get --yes install wget ncbi-blast+ gffread \
     && wget http://github.com/bbuchfink/diamond/releases/download/v2.0.4/diamond-linux64.tar.gz \
     && tar xzf diamond-linux64.tar.gz
 
