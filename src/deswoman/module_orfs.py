@@ -1,8 +1,7 @@
 import os
 from Bio import SeqIO
 from Bio.SeqRecord import SeqRecord
-from deswoman.module_colors import openFile
-
+import importlib.resources
 
 __author__ = "Anna Grandchamp"
 __contributor__ = ""
@@ -594,7 +593,8 @@ def generate_dico_kozac() -> (dict, dict):
     dict_kozac_predicted_strg = {}
     dict_kozac_relative_strg = {}  # Note: I do not know which dict is the most relevant; so far, the program uses the dict predicted score.
     # Open the Kozac prediction file
-    my_kozac_file = openFile("KCS-predicted.tsv")
+    with importlib.resources.files("deswoman.data").joinpath("KCS-predicted.tsv").open("r") as f:
+        my_kozac_file = f.readlines()
 
     # Iterate through lines in the Kozac file
     for line in my_kozac_file[1:]:
