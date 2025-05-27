@@ -165,10 +165,10 @@ def make_reciprocal_prot_blasts(
     output_file_query = name_intermediate_directory + "/" + query_name
     output_file_target = name_intermediate_directory + "/" + target_name
     command1 = (
-        "./diamond makedb --in " + link_prot_query + " -d " + output_file_query
+        "diamond makedb --in " + link_prot_query + " -d " + output_file_query
     )  # query_name
     command2 = (
-        "./diamond makedb --in " + link_prot_target + " -d " + output_file_target
+        "diamond makedb --in " + link_prot_target + " -d " + output_file_target
     )  # target_name
     redirect_comm1 = (
         name_intermediate_directory + "/output_last_diamond_gene_rec_blast_makedb_1.txt"
@@ -186,7 +186,7 @@ def make_reciprocal_prot_blasts(
         name_intermediate_directory + "/old_prot_blast/prot_target_blast_out.txt"
     )
     command_blast1 = (
-        "./diamond blastp -d "
+        "diamond blastp -d "
         + output_file_target
         + " -q "
         + link_prot_query
@@ -194,7 +194,7 @@ def make_reciprocal_prot_blasts(
         + name_output_query
     )  # -d was target_name
     command_blast2 = (
-        "./diamond blastp -d "
+        "diamond blastp -d "
         + output_file_query
         + " -q "
         + link_prot_target

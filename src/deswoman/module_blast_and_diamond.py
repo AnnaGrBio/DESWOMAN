@@ -100,13 +100,13 @@ def perform_blast_prot_transcripts(
     path_target_prot = (
         name_intermediate_directory + "/Intermediate_prot_BLAST/target_prot.fa"
     )
-    command1 = "./diamond makedb --in " + path_target_prot + " -d target_prot"
+    command1 = "diamond makedb --in " + path_target_prot + " -d target_prot"
     path_output_1 = name_intermediate_directory + "/blast_diamond_ORFs_makebd.txt"
     os.system(command1 + ">> " + path_output_1)
     path_query = name_intermediate_directory + "/Intermediate_prot_BLAST/query_prot.fa"
     link_to_blast_output = name_intermediate_directory + "/diamond_transc_prot.out"
     command2 = (
-        "./diamond blastp -d target_prot -q "
+        "diamond blastp -d target_prot -q "
         + path_query
         + " --more-sensitive -o "
         + link_to_blast_output
@@ -153,7 +153,7 @@ def perform_blast_prot_homology_filter(
     name_database = name_intermediate_directory + "/" + name_database
 
     # Constructing the command to create a Diamond database
-    command1 = "./diamond makedb --in " + path_to_db + " -d " + name_database
+    command1 = "diamond makedb --in " + path_to_db + " -d " + name_database
 
     # Executing the command to create the Diamond database
     redirect_place1 = name_intermediate_directory + "/output_step2_prot_makeblastdb.txt"
@@ -165,7 +165,7 @@ def perform_blast_prot_homology_filter(
     # Constructing the Diamond command based on parameters provided
     location_denovo_prot = name_output_directory + "/denovo_protein.fa"
     command2 = (
-        "./diamond blastp -d "
+        "diamond blastp -d "
         + name_database
         + " -q "
         + location_denovo_prot
