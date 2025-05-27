@@ -1,5 +1,3 @@
-from Bio.SeqRecord import SeqRecord
-import os
 from deswoman.module_blast_and_diamond import (
     perform_blast_prot_homology_filter,
     perform_blast_nucl_homology_filter,
@@ -12,16 +10,6 @@ from deswoman.module_select_orphans import (
     reshufe_files_in_denovo,
 )
 from deswoman.module_colors import *
-
-
-__author__ = "Anna Grandchamp"
-__contributor__ = ""
-__copyright__ = ""
-__credits__ = []
-__license__ = ""
-__version__ = "1.0.0"
-__maintainer__ = "Anna Grandchamp"
-__email__ = "anna.grandchamp@inserm.fr"
 
 
 def run_part_2(dico_variables: dict) -> None:

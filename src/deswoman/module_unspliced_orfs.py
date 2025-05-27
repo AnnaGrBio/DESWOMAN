@@ -1,19 +1,7 @@
 import os
 from Bio import SeqIO
-from Bio.SeqRecord import SeqRecord
 from deswoman.module_orfs import build_dict_orfs_per_transcript
-from deswoman.module_my_bedtool import define_start_gtf
 from deswoman.module_colors import openFile
-
-
-__author__ = "Anna Grandchamp"
-__contributor__ = "Marie Lebherz"
-__copyright__ = ""
-__credits__ = []
-__license__ = ""
-__version__ = "1.0.0"
-__maintainer__ = "Anna Grandchamp"
-__email__ = "anna.grandchamp@inserm.fr"
 
 
 def build_dict_unspliced_seqs(opened_gtf_file: list) -> dict:

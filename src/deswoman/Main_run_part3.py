@@ -1,9 +1,6 @@
 import os
-from Bio import SeqIO
-from Bio.SeqRecord import SeqRecord
 from deswoman.module_generate_outgroup_dict import (
     get_dot_special_case_dic,
-    create_outgroup_dict_strategy1,
     create_outgroup_dict_strategy1,
 )
 from deswoman.module_blast_and_diamond import (
@@ -41,16 +38,6 @@ from deswoman.module_handle_strat3_hits import (
 )
 from deswoman.module_remove_extra_files import remove_intermediates
 from deswoman.module_colors import *
-
-
-__author__ = "Anna Grandchamp"
-__contributor__ = ""
-__copyright__ = ""
-__credits__ = []
-__license__ = ""
-__version__ = "1.0.0"
-__maintainer__ = "Anna Grandchamp"
-__email__ = "anna.grandchamp@inserm.fr"
 
 
 def run_part3_strat1(dico_variables: dict) -> None:

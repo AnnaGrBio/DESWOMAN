@@ -1,17 +1,6 @@
 import os
 from Bio import SeqIO
-from Bio.SeqRecord import SeqRecord
 from deswoman.module_colors import openFile
-
-
-__author__ = "Anna Grandchamp"
-__contributor__ = "Marie Lebherz"
-__copyright__ = ""
-__credits__ = []
-__license__ = ""
-__version__ = "1.0.0"
-__maintainer__ = "Anna Grandchamp"
-__email__ = "anna.grandchamp@inserm.fr"
 
 
 def build_target_and_query_prot_list(
@@ -31,7 +20,7 @@ def build_target_and_query_prot_list(
     dico_all_seq = {}
     new_path = name_intermediate_directory + "/Intermediate_prot_BLAST"
     # if the folder does not exist as such, it is created
-    if os.path.exists(new_path) == False:
+    if os.path.exists(new_path) is False:
         os.system("mkdir " + new_path)
     # path to all de novo prots extracted before
     path_denovo_prot = name_output_directory + "/denovo_protein.fa"
@@ -133,7 +122,7 @@ def reduce_by_location(list_orthologs: list, query: str, dico_all_coord: dict) -
     for target in list_orthologs:
         # assess the overlap between the query and its targets
         overlap = assess_overlap(dico_all_coord[query], dico_all_coord[target])
-        if overlap == True:
+        if overlap is True:
             if query not in correct_dico_homologs:
                 correct_dico_homologs[query] = [target]
             else:

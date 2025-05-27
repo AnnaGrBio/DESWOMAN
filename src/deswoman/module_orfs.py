@@ -1,16 +1,6 @@
 import os
 from Bio import SeqIO
-from Bio.SeqRecord import SeqRecord
 import importlib.resources
-
-__author__ = "Anna Grandchamp"
-__contributor__ = ""
-__copyright__ = ""
-__credits__ = []
-__license__ = ""
-__version__ = "1.0.0"
-__maintainer__ = "Anna Grandchamp"
-__email__ = "anna.grandchamp@inserm.fr"
 
 
 def extract_orfs(sequence: str, transc_name: str, dico_orfs: dict) -> None:
@@ -593,7 +583,11 @@ def generate_dico_kozac() -> (dict, dict):
     dict_kozac_predicted_strg = {}
     dict_kozac_relative_strg = {}  # Note: I do not know which dict is the most relevant; so far, the program uses the dict predicted score.
     # Open the Kozac prediction file
-    with importlib.resources.files("deswoman.data").joinpath("KCS-predicted.tsv").open("r") as f:
+    with (
+        importlib.resources.files("deswoman.data")
+        .joinpath("KCS-predicted.tsv")
+        .open("r") as f
+    ):
         my_kozac_file = f.readlines()
 
     # Iterate through lines in the Kozac file

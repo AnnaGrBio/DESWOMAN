@@ -1,18 +1,5 @@
 import os
-import random
 from Bio import SeqIO
-from Bio.SeqRecord import SeqRecord
-from deswoman.module_colors import openFile
-
-
-__author__ = "Anna Grandchamp"
-__contributor__ = ""
-__copyright__ = ""
-__credits__ = []
-__license__ = ""
-__version__ = "1.0.0"
-__maintainer__ = "Anna Grandchamp"
-__email__ = "anna.grandchamp@inserm.fr"
 
 
 def create_new_folder_intermediate(
@@ -32,9 +19,9 @@ def create_new_folder_intermediate(
     name_intermediate_directory : str
         The path of the directory to be created for intermediate files.
     """
-    if os.path.isdir(name_output_directory) == False:
+    if os.path.isdir(name_output_directory) is False:
         os.system("mkdir " + name_output_directory)
-    if os.path.isdir(name_intermediate_directory) == False:
+    if os.path.isdir(name_intermediate_directory) is False:
         os.system("mkdir " + name_intermediate_directory)
 
 

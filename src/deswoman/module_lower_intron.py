@@ -1,18 +1,4 @@
-import os
-from Bio import SeqIO
-from Bio.SeqRecord import SeqRecord
 from deswoman.module_unspliced_orfs import build_dict_chrom, reverse_sequence
-from deswoman.module_colors import openFile
-
-
-__author__ = "Anna Grandchamp"
-__contributor__ = ""
-__copyright__ = ""
-__credits__ = []
-__license__ = ""
-__version__ = "1.0.0"
-__maintainer__ = "Anna Grandchamp"
-__email__ = "anna.grandchamp@inserm.fr"
 
 
 def extract_intron_exon_pos(my_list_of_exon_pos: list) -> dict:

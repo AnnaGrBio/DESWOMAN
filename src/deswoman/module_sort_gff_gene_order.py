@@ -1,17 +1,5 @@
-import os
-from Bio import SeqIO
 from deswoman.module_transcripts_data_and_threeshold import get_path_gff
 from deswoman.module_colors import openFile
-
-
-__author__ = "Anna Grandchamp"
-__contributor__ = ""
-__copyright__ = ""
-__credits__ = []
-__license__ = ""
-__version__ = "1.0.0"
-__maintainer__ = "Anna Grandchamp"
-__email__ = "anna.grandchamp@inserm.fr"
 
 
 def store_genome_informations(species_name: str, path_genome: str) -> dict:

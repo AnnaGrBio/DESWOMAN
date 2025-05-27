@@ -1,16 +1,5 @@
-import os
 from deswoman.module_sort_gff_gene_order import sort_gff_dic
 from deswoman.module_colors import *
-
-
-__author__ = "Anna Grandchamp"
-__contributor__ = "Marie Lebherz"
-__copyright__ = ""
-__credits__ = []
-__license__ = ""
-__version__ = "1.0.0"
-__maintainer__ = "Anna Grandchamp"
-__email__ = "anna.grandchamp@inserm.fr"
 
 
 def assess_gff_markers(my_gff: list) -> (str, str):

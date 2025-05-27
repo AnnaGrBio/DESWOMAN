@@ -1,17 +1,9 @@
 import os
-from Bio import SeqIO
-from Bio.SeqRecord import SeqRecord
-from deswoman.module_transcripts_data_and_threeshold import get_path_to_fasta, get_path_gff
+from deswoman.module_transcripts_data_and_threeshold import (
+    get_path_to_fasta,
+    get_path_gff,
+)
 from deswoman.module_colors import openFile
-
-__author__ = "Anna Grandchamp"
-__contributor__ = ""
-__copyright__ = ""
-__credits__ = []
-__license__ = ""
-__version__ = "1.0.0"
-__maintainer__ = "Anna Grandchamp"
-__email__ = "anna.grandchamp@inserm.fr"
 
 
 def reshuffle_prot_file(link_prot1):
@@ -66,10 +58,10 @@ def extract_all_prots_genome(
     )
 
     # Checking if the file exists. It is convenient because for each pops, the query genes are required. It would be unusefull to create them each time, only once is enough.
-    if os.path.isfile(file_to_assess) == False:
+    if os.path.isfile(file_to_assess) is False:
         # Creating a directory if it doesn't exist
         path_to_create_old_prot = name_intermediate_directory + "/old_prot_blast"
-        if os.path.isdir(path_to_create_old_prot) == False:
+        if os.path.isdir(path_to_create_old_prot) is False:
             os.system("mkdir " + path_to_create_old_prot)
 
         # Constructing paths to required files

@@ -1,6 +1,6 @@
 [project]
 name = "deswoman"
-version = "0.8.3"
+version = "0.8.4"
 description = "DESwoMAN is a software that detects precursors of de novo genes - newly expressed Open Reading Frames (neORFs) - based on transcriptome data and analyses their mutations within populations and/or species."
 readme = "README.md"
 authors = [

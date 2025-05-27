@@ -37,6 +37,5 @@ def openFile(NameFile):
         FileNotFoundError: If the specified file does not exist or cannot be found.
         IOError: If there are issues with reading the file (e.g., permission denied).
     """
-    F = open(NameFile, "r")
-    L = F.readlines()
-    return L
+    with open(NameFile, "r") as inpf:
+        return inpf.readlines()

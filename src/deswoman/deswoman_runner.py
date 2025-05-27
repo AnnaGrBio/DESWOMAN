@@ -10,16 +10,6 @@ from deswoman.module_input_checking_strat1 import assess_parameters_strat1
 from deswoman.module_input_checking_strat2 import assess_parameters_strat2
 
 
-__author__ = "Anna Grandchamp"
-__contributor__ = ""
-__copyright__ = ""
-__credits__ = []
-__license__ = ""
-__version__ = "1.0.0"
-__maintainer__ = "Anna Grandchamp"
-__email__ = "anna.grandchamp@inserm.fr"
-
-
 def main(strategy: str, link_config: bool | str) -> None:
     """
     Executes the main workflow of DESwoMAN based on the selected strategy.

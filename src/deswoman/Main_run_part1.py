@@ -1,10 +1,7 @@
-import os
-from Bio.SeqRecord import SeqRecord
 from deswoman.module_transcripts_data_and_threeshold import (
     get_path_gtf,
     get_path_to_fasta,
     get_path_gff,
-    get_path_to_fasta,
     store_transcriptome_seq,
     associate_gene_and_transcripts,
     get_transcripts_properties,
@@ -47,16 +44,6 @@ from deswoman.module_reformat_dico_with_IDs import (
     implement_dict_transcript_fasta_denovo,
 )
 from deswoman.module_colors import *
-
-
-__author__ = "Anna Grandchamp"
-__contributor__ = ""
-__copyright__ = ""
-__credits__ = []
-__license__ = ""
-__version__ = "1.0.0"
-__maintainer__ = "Anna Grandchamp"
-__email__ = "anna.grandchamp@inserm.fr"
 
 
 def run_part_1_strat1(dico_variables: dict) -> bool:

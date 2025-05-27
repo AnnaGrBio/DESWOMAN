@@ -6,7 +6,9 @@ RUN apt-get update && \
 # Install non-python dependencies
 RUN apt-get --yes install wget ncbi-blast+ gffread \
     && wget http://github.com/bbuchfink/diamond/releases/download/v2.0.4/diamond-linux64.tar.gz \
-    && tar xzf diamond-linux64.tar.gz
+    && tar xzf diamond-linux64.tar.gz \
+    && mv diamond /usr/local/bin/ \
+    && rm diamond-linux64.tar.gz
 
 # add user and set up the working directory
 RUN useradd --create-home deswoman_user

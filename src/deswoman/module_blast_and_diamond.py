@@ -2,16 +2,6 @@ import os
 from deswoman.module_colors import openFile
 
 
-__author__ = "Anna Grandchamp"
-__contributor__ = ""
-__copyright__ = ""
-__credits__ = []
-__license__ = ""
-__version__ = "1.0.0"
-__maintainer__ = "Anna Grandchamp"
-__email__ = "anna.grandchamp@inserm.fr"
-
-
 def perform_blast_nucl_homology_filter(
     name_output_directory: str,
     name_intermediate_directory: str,

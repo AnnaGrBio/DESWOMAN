@@ -1,19 +1,8 @@
 import os
 from Bio import SeqIO
-from Bio.SeqRecord import SeqRecord
 from deswoman.module_graphical_interface_strat2 import my_graphical_interface_strategy2
 from deswoman.module_handle_config_file import my_config_file_extract_parameters
 from deswoman.module_colors import *
-
-
-__author__ = "Anna Grandchamp"
-__contributor__ = "Marie Lebherz"
-__copyright__ = ""
-__credits__ = []
-__license__ = ""
-__version__ = "1.0.0"
-__maintainer__ = "Anna Grandchamp"
-__email__ = "anna.grandchamp@inserm.fr"
 
 
 def validate_presence_of_mandatory_parameters_strat2(

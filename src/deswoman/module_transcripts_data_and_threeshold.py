@@ -3,16 +3,6 @@ from Bio import SeqIO
 from deswoman.module_colors import *
 
 
-__author__ = "Anna Grandchamp"
-__contributor__ = "Marie Lebherz"
-__copyright__ = ""
-__credits__ = []
-__license__ = ""
-__version__ = "1.0.0"
-__maintainer__ = "Anna Grandchamp"
-__email__ = "anna.grandchamp@inserm.fr"
-
-
 def get_list_name_query_rep(path_rep: str) -> list:
     """
     This function retrieves unique query names from filenames in the specified directory.

@@ -1,20 +1,6 @@
 import os
-from Bio import SeqIO
-from Bio.SeqRecord import SeqRecord
 from Bio import Align  # ***
-from Bio.Seq import Seq
-from Bio.Align import MultipleSeqAlignment
 from deswoman.module_colors import openFile
-
-
-__author__ = "Anna Grandchamp"
-__contributor__ = "Marie Lebherz"
-__copyright__ = ""
-__credits__ = []
-__license__ = ""
-__version__ = "1.0.0"
-__maintainer__ = "Anna Grandchamp"
-__email__ = "anna.grandchamp@inserm.fr"
 
 
 def check_ali(seq: str) -> bool:
@@ -254,7 +240,7 @@ def calculate_with_schmidt_similarity_score(ali_denovo: str, ali_homolog: str) -
             if dico_denovo[i] == dico_homolog[i]:  # add + 1 for the last correct nucl
                 nb_correct_frame += 1
         # if for a given position a frame is similar for the two seqs then the score is implemented.
-        if dico_denovo[i] == dico_homolog[i] and stop_scoring != True:
+        if dico_denovo[i] == dico_homolog[i] and stop_scoring is not True:
             nb_correct_frame += 1
         if dico_denovo[i] != "n":
             nb_position += 1
@@ -335,7 +321,7 @@ def calculate_with_schmidt_similarity_score_with_shifted_start(
             if dico_denovo[i] == dico_homolog[i]:  # add + 1 for the last correct nucl
                 nb_correct_frame += 1
         # if for a given position a frame is similar for the two seqs then the score is implemented.
-        if dico_denovo[i] == dico_homolog[i] and stop_scoring != True:
+        if dico_denovo[i] == dico_homolog[i] and stop_scoring is not True:
             nb_correct_frame += 1
         if dico_denovo[i] != "n":
             nb_position += 1
@@ -530,7 +516,7 @@ def measure_size_intron(denovo_seq: str) -> int:
     """
     size_intron = 0
     for i in denovo_seq:
-        if i.islower() == True:
+        if i.islower() is True:
             size_intron += 1
     return size_intron
 
@@ -574,7 +560,7 @@ def splice_alignment(alignment: list) -> (list, list):
             else:
                 seq_intron += nucl_denovo
         else:
-            if nucl_denovo.islower() == False:
+            if nucl_denovo.islower() is False:
                 if seq_intron != "":
                     list_introns.append(seq_intron)
                     seq_intron = ""
@@ -758,16 +744,16 @@ def get_unspliced_seq(alignment: list) -> str:
             # the next line makes sure we lower the nucleotides that are alined to an intron with a "-" in the denovo
             if (
                 len(unspliced_nchit) > 0
-                and unspliced_nchit[len(unspliced_nchit) - 1].islower() == True
+                and unspliced_nchit[len(unspliced_nchit) - 1].islower() is True
             ):
                 new_nucl_hit = nucl_hit.lower()
                 unspliced_nchit += new_nucl_hit
             else:
                 unspliced_nchit += nucl_hit
         else:
-            if nucl_denovo.islower() == False:
+            if nucl_denovo.islower() is False:
                 new_nucl_hit = nucl_hit.upper()
-            elif nucl_denovo.islower() == True:
+            elif nucl_denovo.islower() is True:
                 new_nucl_hit = nucl_hit.lower()
             else:
                 new_nucl_hit = nucl_hit
@@ -925,11 +911,11 @@ def main_alignment_function(
                     alignment = aligner.align(upper_char_denovo_seq, nchit_seq)  # ***
                     intron = True
 
-            if alignment != False and is_ali_empty(alignment):
+            if alignment is not False and is_ali_empty(alignment):
                 alignment = False
 
             # if a correct alignment is now stored in the variable "alignment".
-            if alignment != False:
+            if alignment is not False:
                 unspliced_target = "NA"
                 if len(denovo_seq) < 500:
                     # we sort to get the best alignment only if the sequences are small otherwise it is too long.
@@ -939,15 +925,15 @@ def main_alignment_function(
                     ali_count += 1
                     # an ali is correct if the ATG and stop is not broken by gap in the aligned de novo. Arbitrary.
                     correct_ali = check_ali(ali[0])
-                    if correct_ali == True:
+                    if correct_ali is True:
                         alignment = ali
                         break
                     if ali_count > 5000:
                         break
-                if correct_ali == False:
+                if correct_ali is False:
                     alignment = alignment[0]
                     score += 1
-                if intron == True:
+                if intron is True:
                     # In the alignment, lower letters of the denovo where it is intronic.
                     alignment = place_lower_letter(alignment, denovo_seq)
                     # this function in order to get the homologous hit with lower cases when the seq aligns to the denovo intron
