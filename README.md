@@ -27,7 +27,7 @@
 
 **DESwoMAN** is available as a user-friendly graphical user interface, offering users a high degree of flexibility with various options. Despite its flexibility, **DESwoMAN** can operate under two distinct strategies.
 
-**<span style="color:orange">Strategy 1 :</span>**
+**Strategy 1:**
 The user possesses: 1 transcriptome assembled with a reference genome and several optional outgroup genomes (with corresponding transcriptomes, if available). The transcriptome has been assembled by mapping stranded RNA-seq data to the reference genome, and the user aims to determine whether this transcriptome contains neORFs. Additionally, the user seeks to detect whether these neORF candidates can be found in the outgroup genomes and to what extent they are conserved. 
 
 For example, let's consider a user who sequenced RNA from *Drosophila melanogaster* and assembled a transcriptome by mapping the RNA-seq data to the *D. melanogaster* reference genome. Using Strategy 1, the user will: 
@@ -35,7 +35,7 @@ For example, let's consider a user who sequenced RNA from *Drosophila melanogast
 * Select neORFs that show no homology to known proteins in *Drosophila* and, optionally, in outgroup species.
 * Search for syntenic homologous sequences in outgroup genomes (either from *D. melanogaster* or from outgroup species) and analyze the mutations between the neORFs and their syntenic homologous sequences to study de novo emergence. 
 
-**$${\color{orange}Strategy 2 : \space}$$** \
+**Strategy 2:**
 The user possesses several transcriptomes assembled with a single reference genome. The user has sequenced multiple RNA-seq datasets (for example, RNA-seq data from different organs or conditions of one species), and the transcriptomes were assembled by mapping the RNA-seq data to the same reference genome. With Strategy 2, the user aims to extract all candidate neORFs from each transcriptome. In the second step, the user seeks to identify which candidates are detected across multiple transcriptomes and, for example, transcribed under different conditions. 
 
 For example, let's say a user sequenced RNA-seq data from six different *D. melanogaster* samples, each extracted under different conditions, and assembled six different transcriptomes by mapping the RNA to the *D. melanogaster* reference genome. Using Strategy 2, the user will:: 
@@ -272,7 +272,7 @@ Genome and transcriptome directories should **not** include filenames. For examp
 
 # DESwoMAN Optional parameters
 
-## ${\color{red}Step 1 : \space}$  *(Strategy1 and Strategy2)*
+## Step 1  *(Strategy1 and Strategy2)*
 
 | option      | choices | default     | description     |
 | :---        |    :----:   |  :---: | :---  |
@@ -285,7 +285,7 @@ Genome and transcriptome directories should **not** include filenames. For examp
 | Set up a minimum size for 5'UTR and 3'UTR  |int, int   | 0,0      |With this option, you set a minimum size for the UTRs in the transcripts. By default, **DESwoMAN** does not impose any size filter for ORFs.  Therefore, the selected ORF(s) in the transcript can start at the beginning of the transcript or have a stop codon at the end of the transcript |
 | Set up a minimum size for 5'UTR and 3'UTR  |int, int   | 0,0      |With this option, you set a minimum size for the UTRs in the transcripts. By default, **DESwoMAN** does not impose any size filter for ORFs. Therefore, the selected ORF(s) in the transcript can start at the beginning of the transcript or have a stop codon at the end of the transcript |
 
-## ${\color{red}Step 2 : \space}$  *(Strategy1 and Strategy2)*
+## Step 2  *(Strategy1 and Strategy 2)*
 
 > [!IMPORTANT]
 Running Part 2 is **optional**. In this part, all candidate neORFs filtered from Part 1 are screened for homology against target protein and/or nucleotide databases. Any neORFs that show homology to sequences from the provided datasets will be automatically removed from all neORF files generated in Part 1.
@@ -298,7 +298,7 @@ If no database is provided to validate the fact that the candidate neORFs are or
 | Link to DNA/RNA database for novelty validation  | Link to a DNA/RNA dataset  | no link provided   |  This parameter is mandatory for users who decide to perform a nucleotide BLAST (nucl BLAST) search. <br> Here, the user must directly enter the name of the dataset that contains the DNA/RNA (and not stop at the folder). Moreover, only one dataset is allowed. Therefore, in the case of multiple datasets, all files have to be merged into one single file. <br> If the user does not enter a DNA/RNA dataset, Step 2 (validation of lack of homology) will not be performed for DNA/RNA. If no protein dataset is provided either, Step 2 is not performed at all |
 | Parameters for nucleotide BLAST  | p-value : 0.1 0.01 0.001 0.0001  | 0.01   |  If no DNA/RNA file is entered by the user, setting these parameters is not useful, as no BLASTn will be performed.  |
 
-## ${\color{red}Step 3 : \space}$  *(Strategy1 only)*
+## Step 3  *(Strategy1 only)*
 
 In Part 3 of \textbf{Strategy 1}, **DESwoMAN** searches for sequences homologous to candidate neORFs in outgroup genomes and studies their mutations.
 
