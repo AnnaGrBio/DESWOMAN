@@ -126,43 +126,13 @@ of DESwoMAN. If you need to run the graphical user interface of DESwoMAN with
 the Docker container, please check how to connect your local display to a docker container
 with the corresponding tool you are using (docker/apptainer/singularity).
 
-**run DESwoMAN with docker:**
-
-```shell
- docker run --rm -v "/path/to/my_input_data_dir:/input" edohmen/deswoman deswoman Strategy1 /input/param.config
-```
-- --rm: Closes the docker container after the run.
-- -v "<binding>": Mounts a directory containing your input data on your local hard drive to the /input directory in the docker container (necessary so that the container can read from and write to your input directory).
-- edohmen/deswoman: Specifies the Docker container on DockerHub you want to use (using no tag or the tag "latest" gives you the latest version, but you can also specify a specific version).
-- deswoman <deswoman command with parameters>: Specifies the deswoman command you want to run with the corresponding parameters. Check the **Run DESwoMAN** section below for further details on the different parameters.
-
-**run DESwoMAN with apptainer:**
-
-```shell
- apptainer run --bind /path/to/my_input_data_dir:/input docker://edohmen/deswoman deswoman Strategy1 /input/param.config
-```
-- --bind "\<binding\>": Mount a path to the directory containing your input data on your local hard drive to the /input directory in the docker container (necessary so that the container can read from and write to your input data directory).
-- docker://edohmen/deswoman: Specify the docker container on DockerHub you want to use (no tag or the tag "latest" gives you the latest version, but you can also specify a specific version).
-- deswoman \<deswoman command with parameters\>: Specify the deswoman command you want to run with the corresponding parameters. Check the **Run DESwoMAN** section below for further details on the different parameters.
-
-
-**Preparing an input data directory and param.config file for the docker container**
-
-We recommend that you create one input data directory containing the param.config file and all your input data 
-(can be in subdirectories) and bind/mount this directory to the path /input as described above.
-
-You can find an example for the configuration file in the section below or in src/deswoman 
-of this git repository. Please note that the file paths in the param.config file 
-should be stated as /input/my_file.fa or /input/my_subdirectory to be found from 
-within the docker container.
-
 
 # Run DESwoMAN 
 
 **DESwoMAN** runs with Python 3. To run **DESwoMAN**, the user must call `DESwoMAN.py`, followed by the chosen strategy. The strategy must be either **Strategy1** or **Strategy2**.  
 By default, **DESwoMAN** runs with a GUI. However, the user can specify a configuration file. To do so, the path to the configuration file must be provided in the command line after the strategy.
 
-## With GUI
+## With GUI (manually installed DESwoMAN)
 
 ```shell
 user@comp:~/directory$ deswoman Strategy1
@@ -170,7 +140,7 @@ user@comp:~/directory$ deswoman Strategy1
 user@comp:~/directory$ uv run deswoman Strategy1
 ```
 
-## With configuration file
+## With configuration file (manually installed DESwoMAN)
 
 You find an example config file under src/deswoman/param.config
 
@@ -183,6 +153,46 @@ user@comp:~/directory$ uv run deswoman Strategy1 /path/to/param.config
 If **DESwoMAN** is launched with the graphical interface, the user can configure all parameters through the GUI. Alternatively, the user can use a configuration file.
 In this configuration file, all options are set by default. If DESwoMAN is run with default options, only the three mandatory parameters—**query**, **path_to_genome_repository**, and **path_to_transcriptome_repository**—are required to remain in the config file.
 Additionally, all parameters from Part 3 are specific to Strategy1. They can be included in the file when using Strategy2, but they will be ignored.
+
+**run DESwoMAN with docker:**
+
+
+We recommend that you create one input directory containing the param.config file and all your input directories 
+(can be in subdirectories) and bind/mount this directory to the path /input as described above.
+
+You can find an example for the configuration file in the section below or in src/deswoman 
+of this git repository. Please note that the file paths in the param.config file 
+should be stated as /input/my_file.fa or /input/my_subdirectory to be found from 
+within the docker container.
+
+```shell
+ docker run --rm -v "/path/to/my_input_data_dir:/input" edohmen/deswoman deswoman Strategy1 /input/param.config
+```
+- --rm: Closes the docker container after the run.
+- -v "<binding>": Mounts a directory containing your input data on your local hard drive to the /input directory in the docker container (necessary so that the container can read from and write to your input directory).
+- edohmen/deswoman: Specifies the Docker container on DockerHub you want to use (using no tag or the tag "latest" gives you the latest version, but you can also specify a specific version).
+- deswoman <deswoman command with parameters>: Specifies the deswoman command you want to run with the corresponding parameters. Check the **Run DESwoMAN** section below for further details on the different parameters.
+
+**run DESwoMAN with apptainer:**
+
+We recommend that you create one input directory containing the param.config file and all your input directories 
+(can be in subdirectories) and bind/mount this directory to the path /input as described above.
+
+You can find an example for the configuration file in the section below or in src/deswoman 
+of this git repository. Please note that the file paths in the param.config file 
+should be stated as /input/my_file.fa or /input/my_subdirectory to be found from 
+within the docker container.
+
+
+```shell
+ apptainer run --bind /path/to/my_input_data_dir:/input docker://edohmen/deswoman deswoman Strategy1 /input/param.config
+```
+- --bind "\<binding\>": Mount a path to the directory containing your input data on your local hard drive to the /input directory in the docker container (necessary so that the container can read from and write to your input data directory).
+- docker://edohmen/deswoman: Specify the docker container on DockerHub you want to use (no tag or the tag "latest" gives you the latest version, but you can also specify a specific version).
+- deswoman \<deswoman command with parameters\>: Specify the deswoman command you want to run with the corresponding parameters. Check the **Run DESwoMAN** section below for further details on the different parameters.
+
+
+
 
 ## Configuration file (param.config)
 
