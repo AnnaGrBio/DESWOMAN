@@ -27,7 +27,7 @@
 
 **DESwoMAN** is available as a user-friendly graphical user interface, offering users a high degree of flexibility with various options. Despite its flexibility, **DESwoMAN** can operate under two distinct strategies.
 
-**$${\color{orange}Strategy 1 : \space}$$** \
+**<span style="color:orange">Strategy 1 :</span>**
 The user possesses: 1 transcriptome assembled with a reference genome and several optional outgroup genomes (with corresponding transcriptomes, if available). The transcriptome has been assembled by mapping stranded RNA-seq data to the reference genome, and the user aims to determine whether this transcriptome contains neORFs. Additionally, the user seeks to detect whether these neORF candidates can be found in the outgroup genomes and to what extent they are conserved. 
 
 For example, let's consider a user who sequenced RNA from *Drosophila melanogaster* and assembled a transcriptome by mapping the RNA-seq data to the *D. melanogaster* reference genome. Using Strategy 1, the user will: 
