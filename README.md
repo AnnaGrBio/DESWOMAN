@@ -154,7 +154,7 @@ If **DESwoMAN** is launched with the graphical interface, the user can configure
 In this configuration file, all options are set by default. If DESwoMAN is run with default options, only the three mandatory parameters—**query**, **path_to_genome_repository**, and **path_to_transcriptome_repository**—are required to remain in the config file.
 Additionally, all parameters from Part 3 are specific to Strategy1. They can be included in the file when using Strategy2, but they will be ignored.
 
-**run DESwoMAN with docker:**
+## With docker
 
 
 We recommend that you create one input directory containing the param.config file and all your input directories 
@@ -173,7 +173,7 @@ within the docker container.
 - edohmen/deswoman: Specifies the Docker container on DockerHub you want to use (using no tag or the tag "latest" gives you the latest version, but you can also specify a specific version).
 - deswoman <deswoman command with parameters>: Specifies the deswoman command you want to run with the corresponding parameters. Check the **Run DESwoMAN** section below for further details on the different parameters.
 
-**run DESwoMAN with apptainer:**
+## With apptainer
 
 We recommend that you create one input directory containing the param.config file and all your input directories 
 (can be in subdirectories) and bind/mount this directory to the path /input as described above.
