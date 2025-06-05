@@ -48,7 +48,7 @@ A manual is available for a more detailed overview of all steps performed by **D
 
 # Flowchart
 
-![Flowchart](flowchart.png)
+![Flowchart](flowchart_all_strats.png)
 
 # Install DESwoMAN
 
