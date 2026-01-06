@@ -36,8 +36,7 @@ For example, let's consider a user who sequenced RNA from *Drosophila melanogast
 * Search for syntenic homologous sequences in outgroup genomes (either from *D. melanogaster* or from outgroup species) and analyze the mutations between the neORFs and their syntenic homologous sequences to study de novo emergence.
 
 > [!NOTE]
-
-Additional scripts can be use to automatically filter DESwoMAN results. [Marie Lebherz sorting scripts]([https://hub.docker.com/r/edohmen/deswoman](https://github.com/MarieLebh/deswomanUTIL))
+Additional scripts can be use to automatically filter DESwoMAN results. They will be found in [Marie Lebherz github](https://github.com/MarieLebh/deswomanUTIL)
 
 **Strategy 2:**
 The user possesses several transcriptomes assembled with a single reference genome. The user has sequenced multiple RNA-seq datasets (for example, RNA-seq data from different organs or conditions of one species), and the transcriptomes were assembled by mapping the RNA-seq data to the same reference genome. With Strategy 2, the user aims to extract all candidate neORFs from each transcriptome. In the second step, the user seeks to identify which candidates are detected across multiple transcriptomes and, for example, transcribed under different conditions. 
