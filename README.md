@@ -255,6 +255,9 @@ The genome and transcriptome directories **MUST** be two different directories.
 For each species/population/individual, the genome, transcriptome, and annotation files **must share the same name**, corresponding to the name of the query. 
 For example, if a user is working with a transcriptome from *Drosophila melanogaster*, named "Dmel.fa", the query is called "Dmel". The genome must be named "Dmel.fa" and its annotation file must be named "Dmel.gff" (or other accepted extension), the transcriptome must be named "Dmel.fa" and stored in the transcriptome directory, along with the transcriptome annotation file, which must be named "Dmel.gtf".
 
+> [!CAUTION]
+This first version of **DESwoMAN** does not allow transcriptomes that were merged and are devoid of TPM values. If several transcriptomes are required to be used as query, **DESwoMAN** must be run separately for each.
+
 > [!NOTE]
 Genome and transcriptome directories should **not** include filenames. For example, if the genomes are stored in "/home/genomes", the correct path is "/home/genomes" and **NOT** "/home/genomes/my_genome.fa". \\
 
