@@ -208,6 +208,7 @@ path_to_genome_repository = path // path to genome repository MANDATORY
 path_to_transcriptome_repository = path // path to transcriptome repository MANDATORY
 TPM_threeshold = 0.5 // float. Default : 0.5
 transcript_overlap = intronic, genic  // allowed genomic overlap, separated by a comma. Default : intergenic
+start_codon = ATG // Choice of the START codon. By default : ATG.
 ORFs_choice = longest // ORF choice (string). Default : longest
 five_prime = 0 // minimum length of 5'UTR (int). Default : 0
 three_prime = 0 // minimum length of 3'UTR (integer). Default : 0
