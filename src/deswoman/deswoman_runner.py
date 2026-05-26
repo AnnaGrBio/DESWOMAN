@@ -43,7 +43,7 @@ def main(strategy: str, link_config: bool | str) -> None:
     else:
         valid_parameters, dico_variables = assess_parameters_strat2(link_config)
     # DESwoMAN only run if all parameters were validated; If not, the previous function display the error messages corresponding to te problem.
-    if valid_parameters == True:
+    if valid_parameters:
         validated_step1 = False
         print(BRIGHT_GREEN + "- - - - - - - - - - - - - - - - - - -" + RESET)
         print("")

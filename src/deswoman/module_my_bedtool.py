@@ -2,7 +2,7 @@ from deswoman.module_sort_gff_gene_order import sort_gff_dic
 from deswoman.module_colors import *
 
 
-def assess_gff_markers(my_gff: list) -> (str, str):
+def assess_gff_markers(my_gff: list) -> tuple[str, str]:
     """
     Assesses the markers in a GFF file to determine the gene and exon markers.
     Parameters:
@@ -198,7 +198,7 @@ def define_start_gtf(my_gff: list) -> int:
     return l_number
 
 
-def extract_gff_elts(link_to_gff: str) -> (dict, dict):
+def extract_gff_elts(link_to_gff: str) -> tuple[dict, dict]:
     """
     Extracts exon and intron information from a GFF file and returns dictionaries containing their positions.
 
@@ -275,7 +275,9 @@ def extract_gff_elts(link_to_gff: str) -> (dict, dict):
     return dico_chrom_exon_pos, dico_chrom_intron_pos
 
 
-def my_bedtool_genes_introns_ordered(link_to_query_genome_gff: str) -> (dict, dict):
+def my_bedtool_genes_introns_ordered(
+    link_to_query_genome_gff: str,
+) -> tuple[dict, dict]:
     """
     Creates dictionaries of all exons and introns from a GFF file, sorted by their start position.
 
@@ -326,7 +328,7 @@ def find_intronic_overlap(
     unknown_transcripts: list,
     antisense_transcript: list,
     sign_dot: str,
-) -> (list, list):
+) -> tuple[list, list]:
     """
     This function studies the overlap between transcripts and introns, categorizing them as intronic or antisense based on their position and orientation.
 
@@ -393,7 +395,7 @@ def find_genic_overlap(
     dict_transcripts_properties: dict,
     list_accepted_transcript: list,
     sign_dot: str,
-) -> (list, list):
+) -> tuple[list, list]:
     """
     This function detects the overlap between transcripts and exons. Transcripts that overlap with an exon or part of an exon
     in the same orientation as the exon are considered genic, while the same overlap in the reverse orientation (antisense)
@@ -651,7 +653,7 @@ def extract_denovo_transcripts(
     dict_transcript_fasta: dict,
     dict_gene_transcripts: dict,
     name_output_directory: str,
-) -> (dict, dict, dict, dict):
+) -> tuple[dict, dict, dict, dict]:
     """
     Extracts denovo transcripts based on user-defined overlap types and generates output files and dictionaries.
 

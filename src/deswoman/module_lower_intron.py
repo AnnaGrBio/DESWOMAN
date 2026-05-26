@@ -34,7 +34,7 @@ def extract_intron_exon_pos(my_list_of_exon_pos: list) -> dict:
 
 def build_dico_intron_exon_specified(
     dict_gene_exon_pos: dict, transcript_name: str
-) -> (dict, dict):
+) -> tuple[dict, dict]:
     """
     This function constructs dictionaries to store information about intron and exon positions for each transcript
     based on the provided dictionary of gene exon positions.
