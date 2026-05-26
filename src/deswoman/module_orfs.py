@@ -1,14 +1,25 @@
 import os
 from Bio import SeqIO
-import importlib.resources
+from Bio.SeqRecord import SeqRecord
+from module_colors import openFile
 
 
-def extract_orfs(sequence: str, transc_name: str, dico_orfs: dict) -> None:
+__author__ = "Anna Grandchamp"
+__contributor__=""
+__copyright__ = ""
+__credits__ = []
+__license__ = ""
+__version__="1.0.0"
+__maintainer__ = "Anna Grandchamp"
+__email__ = "anna.grandchamp@inserm.fr"
+
+
+def extract_orfs(dico_variables : dict, sequence : str, transc_name : str, dico_orfs : dict) -> None:
     """
     Extracts Open Reading Frames (ORFs) from a given transcript sequence based on start and stop codons.
-
-    This function identifies potential ORFs in the provided nucleotide sequence by scanning for
-    the start codon "ATG" and one of the stop codons ("TAG", "TAA", "TGA"). It collects ORFs with lengths
+    
+    This function identifies potential ORFs in the provided nucleotide sequence by scanning for 
+    the start codon "ATG" and one of the stop codons ("TAG", "TAA", "TGA"). It collects ORFs with lengths 
     greater than a minimum threshold and stores them in a dictionary with unique names. The function
     processes the sequence in different reading frames (starting at positions 0, 1, or 2) and allows for a
     maximum ORF size limit.
@@ -17,10 +28,10 @@ def extract_orfs(sequence: str, transc_name: str, dico_orfs: dict) -> None:
     -----------
     sequence : str
         A nucleotide sequence (DNA or RNA) from which ORFs are to be extracted.
-
+    
     transc_name : str
         The name of the transcript to which the ORFs belong. This will be used to generate unique ORF names.
-
+    
     dico_orfs : dict
         A dictionary that will be populated with ORFs. The keys will be ORF names (generated using the transcript name and positions),
         and the values will be the corresponding ORF sequences.
@@ -41,21 +52,19 @@ def extract_orfs(sequence: str, transc_name: str, dico_orfs: dict) -> None:
     min_size = 91
     max_size = 9000
     compteur = 1
-
+    start_codon_to_search = dico_variables["start_codon"]
     start_pos = 0
     ## Frame 1
     if len(sequence) >= min_size:
         while start_pos < 3:
             iter = start_pos
-            while iter < (
-                len(sequence) + 1 - min_size
-            ):  # in range(start_pos, (len(sequence)+1-min_size), 3):
-                start = sequence[iter : iter + 3].upper()
+            while iter < (len(sequence)+1-min_size):#in range(start_pos, (len(sequence)+1-min_size), 3):
+                start = sequence[iter:iter+3].upper()
                 stop_attributed = False
-                if start == "ATG":
-                    for iter2 in range((iter + 3), iter + max_size, 3):
+                if start == start_codon_to_search:  #old : if start == "ATG"
+                    for iter2 in range((iter + 3) , iter + max_size, 3):
                         if iter2 + 2 < len(sequence):
-                            stop = sequence[iter2 : iter2 + 3].upper()
+                            stop = sequence[iter2:iter2+3].upper()
                             if stop in list_stops:
                                 if (iter2 + 3 - iter) < min_size:
                                     break
@@ -63,15 +72,7 @@ def extract_orfs(sequence: str, transc_name: str, dico_orfs: dict) -> None:
                                     my_orf = sequence[iter:iter2]
                                     official_start = str(iter + 1)
                                     official_stop = str(iter2)
-                                    new_orf_name = (
-                                        transc_name
-                                        + "_"
-                                        + str(compteur)
-                                        + "_"
-                                        + official_start
-                                        + "_"
-                                        + official_stop
-                                    )
+                                    new_orf_name = transc_name + "_" + str(compteur) + "_" + official_start + "_" + official_stop
                                     dico_orfs[new_orf_name] = my_orf
                                     compteur += 1
                                     stop_attributed = True
@@ -79,13 +80,13 @@ def extract_orfs(sequence: str, transc_name: str, dico_orfs: dict) -> None:
                         else:
                             break
                 if stop_attributed == True:
-                    iter = iter2 + 3
+                    iter = iter2+3
                 else:
                     iter += 3
-            start_pos += 1
+            start_pos += 1                    
 
 
-def my_get_orfs(name_output_directory: str) -> dict:
+def my_get_orfs(dico_variables, name_output_directory : str) -> dict:
     """
     Extracts all Open Reading Frames (ORFs) from all transcripts in a FASTA file.
 
@@ -116,12 +117,12 @@ def my_get_orfs(name_output_directory: str) -> dict:
         for seq_record in SeqIO.parse(file_name, "fasta"):
             ID_seq = str(seq_record.id)
             sequence = str(seq_record.seq)
-            extract_orfs(sequence, ID_seq, dico_orfs)
-    os.remove(file_name)
+            extract_orfs(dico_variables, sequence, ID_seq, dico_orfs)
+    os.remove(file_name) 
     return dico_orfs
 
 
-def build_dict_orfs_per_transcript(dict_orfs: dict) -> dict:
+def build_dict_orfs_per_transcript(dict_orfs : dict) -> dict:
     """
     Creates a dictionary that maps transcripts to their corresponding ORFs.
 
@@ -132,13 +133,13 @@ def build_dict_orfs_per_transcript(dict_orfs: dict) -> dict:
     Parameters:
     -----------
     dict_orfs : dict
-        A dictionary where the keys are ORF names (which include the transcript ID),
+        A dictionary where the keys are ORF names (which include the transcript ID), 
         and the values are the corresponding ORF sequences.
 
     Returns:
     --------
     dict_transcrit_all_orfs : dict
-        A dictionary where the keys are transcript names, and the values are lists of ORF names
+        A dictionary where the keys are transcript names, and the values are lists of ORF names 
         associated with each transcript.
 
     Example:
@@ -174,11 +175,11 @@ def build_dict_orfs_per_transcript(dict_orfs: dict) -> dict:
     return dict_transcrit_all_orfs
 
 
-class Gene:
+class Gene():
     """
     A class representing a Gene, with its associated transcripts and ORFs.
 
-    This class stores information about a gene, including its associated ORFs,
+    This class stores information about a gene, including its associated ORFs, 
     the sequences of the ORFs, and the sequences of the transcripts that are related to the gene.
 
     Attributes:
@@ -192,17 +193,10 @@ class Gene:
     dict_transcript_seq : dict
         A dictionary where keys are transcript names, and the values are the corresponding transcript sequences.
     """
-
-    def __init__(
-        self,
-        dict_transcripts_assoc_orfs: dict,
-        gene_name: str,
-        dict_orf_seq: dict,
-        dict_transcript_seq: dict,
-    ) -> None:
+    def __init__(self, dict_transcripts_assoc_orfs : dict, gene_name : str, dict_orf_seq :dict, dict_transcript_seq : dict) -> None:
         """
         Constructor for the Gene class.
-
+        
         Parameters:
         - dict_transcripts_assoc_orfs: Dictionary with genes as keys and lists of associated ORFs as items.
         - gene_name: Name of the gene.
@@ -213,23 +207,22 @@ class Gene:
         self.gene_name = gene_name
         self.dict_orf_seq = dict_orf_seq
         self.dict_transcript_seq = dict_transcript_seq
-
-    def get_highest_kozac(
-        self, dict_kozac_predicted_strg: dict, dict_kozac_relative_strg: dict
-    ) -> None:
+        
+        
+    def get_highest_kozac(self, dict_kozac_predicted_strg : dict, dict_kozac_relative_strg :dict) -> None:
         """
-        This method evaluates the Kozac sequence scores for ORFs in each transcript and selects the ORF(s) with
+        This method evaluates the Kozac sequence scores for ORFs in each transcript and selects the ORF(s) with 
         the highest Kozac score for each transcript.
 
-        For each transcript, it iterates through all associated ORFs and calculates the Kozac score for the
-        Kozac sequence surrounding the start codon of each ORF. The ORF with the highest Kozac score is selected,
-        and transcripts with no valid ORF (e.g., if the Kozac sequence is too close to the start of the transcript)
+        For each transcript, it iterates through all associated ORFs and calculates the Kozac score for the 
+        Kozac sequence surrounding the start codon of each ORF. The ORF with the highest Kozac score is selected, 
+        and transcripts with no valid ORF (e.g., if the Kozac sequence is too close to the start of the transcript) 
         are removed from the list of associated ORFs.
 
         Parameters:
         -----------
         dict_kozac_predicted_strg : dict
-            A dictionary where keys are Kozac sequences (strings) and values are their corresponding Kozac scores.
+            A dictionary where keys are Kozac sequences (strings) and values are their corresponding Kozac scores. 
             These scores represent the strength of the Kozac sequence prediction for each ORF.
 
         dict_kozac_relative_strg : dict
@@ -246,7 +239,7 @@ class Gene:
         list_transcript_to_remove : list
             A temporary list of transcripts that do not have a valid ORF with a Kozac score above the threshold. These
             transcripts are eventually removed from `self.dict_transcripts_assoc_orfs`.
-
+        
         """
         list_transcript_to_remove = []
         # Iterate through transcripts with associated ORFs
@@ -263,9 +256,7 @@ class Gene:
                 # Check if the ORF start is beyond the first 3 nucleotides
                 if orf_start_0_python_indent > 3:
                     # Extract the Kozac sequence
-                    my_kozac = self.dict_transcript_seq[transcript_name][
-                        orf_start_0_python_indent - 4 : orf_start_3_python_indent + 1
-                    ]
+                    my_kozac = self.dict_transcript_seq[transcript_name][orf_start_0_python_indent - 4:orf_start_3_python_indent + 1]
                     my_kozac = my_kozac.upper()
 
                     # Retrieve the Kozac score from the predicted dictionary
@@ -292,20 +283,21 @@ class Gene:
         # Remove transcripts without a valid ORF
         if len(list_transcript_to_remove) > 0:
             for transcript_name in list_transcript_to_remove:
-                del self.dict_transcripts_assoc_orfs[transcript_name]
+                del (self.dict_transcripts_assoc_orfs[transcript_name])
+
 
     def get_longest_orf(self) -> None:
         """
-        This method identifies the longest ORF for each transcript and updates the transcript's associated ORFs
+        This method identifies the longest ORF for each transcript and updates the transcript's associated ORFs 
         to include only the longest one.
 
-        For each transcript, the method iterates through all associated ORFs and calculates the length of each ORF.
+        For each transcript, the method iterates through all associated ORFs and calculates the length of each ORF. 
         The longest ORF is selected, and the transcript's associated ORFs are updated to include only this longest ORF.
 
         Modifies:
         --------
         self.dict_transcripts_assoc_orfs : dict
-            Updates the dictionary of transcripts and their associated ORFs. After this method runs, each transcript
+            Updates the dictionary of transcripts and their associated ORFs. After this method runs, each transcript 
             will only have the longest ORF associated with it, replacing any previously associated ORFs.
 
         """
@@ -327,19 +319,20 @@ class Gene:
             if longest_orf != "":
                 self.dict_transcripts_assoc_orfs[transcript_name] = [longest_orf]
 
+        
     def get_start_first_orf(self) -> None:
         """
-        This method identifies the first ORF (the one with the earliest start position) for each transcript and
+        This method identifies the first ORF (the one with the earliest start position) for each transcript and 
         updates the transcript's associated ORFs to include only the first ORF.
 
-        For each transcript, the method iterates through all associated ORFs and compares their start positions.
-        The ORF with the earliest start position is selected, and the transcript's associated ORFs are updated to
+        For each transcript, the method iterates through all associated ORFs and compares their start positions. 
+        The ORF with the earliest start position is selected, and the transcript's associated ORFs are updated to 
         include only this ORF.
 
         Modifies:
         --------
         self.dict_transcripts_assoc_orfs : dict
-            Updates the dictionary of transcripts and their associated ORFs. After this method runs, each transcript
+            Updates the dictionary of transcripts and their associated ORFs. After this method runs, each transcript 
             will only have the first ORF (the one with the earliest start position) associated with it.
 
         """
@@ -365,22 +358,23 @@ class Gene:
             # Update the transcript's associated ORFs with the first ORF
             if start_first_orf != "":
                 self.dict_transcripts_assoc_orfs[transcript_name] = [start_first_orf]
-
-    def min_size_utr(self, five_min: int, three_min: int) -> None:
+        
+        
+    def min_size_utr(self, five_min : int, three_min : int) -> None:
         """
-        This method filters the ORFs associated with each transcript based on their positions relative to the UTRs
+        This method filters the ORFs associated with each transcript based on their positions relative to the UTRs 
         (Untranslated Regions) and the size criteria provided for both the 5' and 3' UTRs.
 
-        For each transcript, it checks if the ORFs meet the minimum size criteria by ensuring that the ORF's start
-        position is beyond the specified minimum length from the 5' UTR and the ORF's stop position is within the
-        specified minimum length from the 3' UTR. Transcripts with ORFs that meet these criteria are retained,
+        For each transcript, it checks if the ORFs meet the minimum size criteria by ensuring that the ORF's start 
+        position is beyond the specified minimum length from the 5' UTR and the ORF's stop position is within the 
+        specified minimum length from the 3' UTR. Transcripts with ORFs that meet these criteria are retained, 
         and those that don't are excluded.
 
         Parameters:
         ----------
         five_min : int
             The minimum distance (in nucleotides) from the 5' UTR required for an ORF to be considered valid.
-
+        
         three_min : int
             The minimum distance (in nucleotides) from the 3' UTR required for an ORF to be considered valid.
 
@@ -393,7 +387,7 @@ class Gene:
 
         Notes:
         ------
-        - The method uses the start and stop positions of each ORF to evaluate whether it falls within the valid
+        - The method uses the start and stop positions of each ORF to evaluate whether it falls within the valid 
           range specified by the 5' and 3' UTR size criteria.
         - After filtering, the ORFs that meet the size requirements are retained in `final_dict_transcripts_assoc_orfs`.
         - The method clears the original `dict_transcripts_assoc_orfs` and updates it with the filtered ORFs.
@@ -406,20 +400,18 @@ class Gene:
 
             # Initialize lists to store information about ORFs that meet the size criteria
             new_list_orf = []
-
+            
             # Iterate through ORFs in the current transcript
             for orf_name in list_orfs:
                 # Extract the start and stop positions of the current ORF
                 orf_start = int(orf_name.split("_")[2])
                 orf_stop = int(orf_name.split("_")[3])
-
+                
                 # Extract the length of the current transcript
                 transcript_length = len(self.dict_transcript_seq[transcript_name])
 
                 # Check if the ORF meets the size criteria
-                if orf_start > int(five_min) and orf_stop < (
-                    transcript_length - int(three_min)
-                ):
+                if orf_start > int(five_min) and orf_stop < (transcript_length - int(three_min)):
                     # Add the ORF to the new list if it meets the size criteria
                     new_list_orf.append(orf_name)
 
@@ -428,6 +420,7 @@ class Gene:
                 self.final_dict_transcripts_assoc_orfs[transcript_name] = new_list_orf
         self.dict_transcripts_assoc_orfs = {}
         self.dict_transcripts_assoc_orfs = self.final_dict_transcripts_assoc_orfs
+
 
     def handle_orf_duplicate_per_transcript(self) -> None:
         """
@@ -447,7 +440,7 @@ class Gene:
         - The method works by first collecting all ORFs and their sequences into a reverse mapping. Then, only unique sequences are kept and reassigned to the corresponding transcripts.
         - The final result is that each transcript will have only unique ORFs (no duplicates).
 
-        """
+        """ 
         dict_reverse_orf_to_transcript = {}
 
         # Iterate through transcripts with associated ORFs
@@ -456,7 +449,7 @@ class Gene:
 
             # Iterate through ORFs in the current transcript
             for orf_name in list_orfs:
-                # Extract the ORF sequence
+                # Extract the ORF sequence 
                 orf_seq = self.dict_orf_seq[orf_name]
                 orf_seq = orf_seq.upper()
                 # Map the ORF sequence to its ORF name in the reverse dictionary
@@ -477,12 +470,8 @@ class Gene:
                 self.dict_transcripts_assoc_orfs[transcript_name].append(orf_name)
 
 
-def generate_list_genes_objects(
-    dict_gene_transcripts: dict,
-    dict_transcript_orf: dict,
-    dict_ORFs_fasta,
-    dict_transcript_fasta: dict,
-) -> list:
+def generate_list_genes_objects(dict_gene_transcripts : dict, dict_transcript_orf : dict, dict_ORFs_fasta, dict_transcript_fasta : dict) -> list:
+
     """
     This function generates a list of Gene objects. Each Gene object contains information about the number of transcript variants (slice variants) for a gene,
     along with their associated ORFs. The function populates each Gene object with the gene's transcripts, associated ORFs, and their respective sequences.
@@ -521,9 +510,7 @@ def generate_list_genes_objects(
             # Check if the transcript has associated ORFs
             if transcript_name in dict_transcript_orf:
                 # Add the transcript and its associated ORFs to the dictionary
-                dict_transcripts_with_orfs[transcript_name] = dict_transcript_orf[
-                    transcript_name
-                ]
+                dict_transcripts_with_orfs[transcript_name] = dict_transcript_orf[transcript_name]
 
         # Check if there are transcripts with associated ORFs for the current gene
         if len(dict_transcripts_with_orfs) > 0:
@@ -537,9 +524,7 @@ def generate_list_genes_objects(
             # Iterate through transcripts with associated ORFs
             for transcript_name in dict_transcripts_with_orfs:
                 # Add the transcript sequence to the dictionary
-                dict_transcript_seqs[transcript_name] = dict_transcript_fasta[
-                    transcript_name
-                ]
+                dict_transcript_seqs[transcript_name] = dict_transcript_fasta[transcript_name]
 
                 # Iterate through ORFs associated with the current transcript
                 for orf_name in dict_transcripts_with_orfs[transcript_name]:
@@ -547,12 +532,7 @@ def generate_list_genes_objects(
                     dict_orf_seq[orf_name] = dict_ORFs_fasta[orf_name]
 
             # Create a Gene object with the collected information and add it to the list
-            gene_instance = Gene(
-                dict_transcripts_with_orfs,
-                name_of_my_gene,
-                dict_orf_seq,
-                dict_transcript_seqs,
-            )
+            gene_instance = Gene(dict_transcripts_with_orfs, name_of_my_gene, dict_orf_seq, dict_transcript_seqs)
             list_gene_object.append(gene_instance)
 
     # Return the list of Gene objects
@@ -561,7 +541,7 @@ def generate_list_genes_objects(
 
 def generate_dico_kozac() -> (dict, dict):
     """
-    This function generates two dictionaries containing Kozac scores: one for predicted Kozac scores and another for relative Kozac strength.
+    This function generates two dictionaries containing Kozac scores: one for predicted Kozac scores and another for relative Kozac strength. 
     The function reads data from a Kozac prediction file and populates the dictionaries with Kozac sequences and their corresponding scores.
 
     The function assumes that the Kozac file is in CSV format where each line contains:
@@ -583,12 +563,7 @@ def generate_dico_kozac() -> (dict, dict):
     dict_kozac_predicted_strg = {}
     dict_kozac_relative_strg = {}  # Note: I do not know which dict is the most relevant; so far, the program uses the dict predicted score.
     # Open the Kozac prediction file
-    with (
-        importlib.resources.files("deswoman.data")
-        .joinpath("KCS-predicted.tsv")
-        .open("r") as f
-    ):
-        my_kozac_file = f.readlines()
+    my_kozac_file = openFile("KCS-predicted.tsv")
 
     # Iterate through lines in the Kozac file
     for line in my_kozac_file[1:]:
@@ -605,7 +580,7 @@ def generate_dico_kozac() -> (dict, dict):
     return dict_kozac_predicted_strg, dict_kozac_relative_strg
 
 
-def order_option_list(option_list: list) -> list:
+def order_option_list(option_list : list) -> list:
     """
     Orders the given list of options based on a predefined priority:
     1. First, it selects the 'utr_size' options.
@@ -633,11 +608,7 @@ def order_option_list(option_list: list) -> list:
             ordered_option_list.append(sublist)
     for sublist in option_list:
         # no need to precise all orf because if nothing is precised by default all orfs are selected.
-        if (
-            sublist[0] == "kozac_highest"
-            or sublist[0] == "start_first"
-            or sublist[0] == "longest"
-        ):
+        if sublist[0] == "kozac_highest" or sublist[0] == "start_first" or sublist[0] == "longest": 
             ordered_option_list.append(sublist)
     for sublist in option_list:
         if sublist[0] == "duplicate_handle":
@@ -645,14 +616,8 @@ def order_option_list(option_list: list) -> list:
     return ordered_option_list
 
 
-def sort_orfs_by_properties(
-    filter_gene: bool,
-    list_gene_object: list,
-    option_list: list,
-    dict_all_ORFs_purge1: dict,
-    dict_gene_status: dict,
-) -> (dict, dict):
-    """
+def sort_orfs_by_properties(filter_gene : bool, list_gene_object : list, option_list : list, dict_all_ORFs_purge1 : dict, dict_gene_status : dict) -> (dict, dict):
+    """ 
     This function processes a list of Gene objects and filters their associated ORFs based on specified properties.
     It handles the following filtering:
     - Selecting ORFs based on Kozac scores, ORF length, the first ORF, UTR size, and duplicate removal.
@@ -663,7 +628,7 @@ def sort_orfs_by_properties(
     -----------
     filter_gene : bool
         If True, genes with a status of "genic" (as per `dict_gene_status`) will be discarded.
-
+        
     list_gene_object : list of Gene
         A list of Gene objects, each containing transcripts and associated ORFs.
 
@@ -695,9 +660,7 @@ def sort_orfs_by_properties(
         for option in ordered_option_list:
             # Check the type of option and call the corresponding method in the Gene object
             if option[0] == "kozac_highest":
-                gene_object.get_highest_kozac(
-                    dict_kozac_predicted_strg, dict_kozac_relative_strg
-                )
+                gene_object.get_highest_kozac(dict_kozac_predicted_strg, dict_kozac_relative_strg)
             elif option[0] == "longest":
                 gene_object.get_longest_orf()
             elif option[0] == "start_first":
@@ -709,19 +672,15 @@ def sort_orfs_by_properties(
             if filter_gene == True:
                 if dict_gene_status[gene_object.gene_name] == "genic":
                     discard_gene = True
-
+                
         # Iterate through the transcripts associated with the current Gene object (is the user want a denovo gene, only these will be written)
         if discard_gene == False:
             for transcript_name in gene_object.dict_transcripts_assoc_orfs:
                 # Update the dictionary with filtered transcripts and associated ORFs
-                dict_transcrit_filtered_orfs[transcript_name] = (
-                    gene_object.dict_transcripts_assoc_orfs[transcript_name]
-                )
+                dict_transcrit_filtered_orfs[transcript_name] = gene_object.dict_transcripts_assoc_orfs[transcript_name]
 
                 # Iterate through the associated ORFs and update the dictionary with all filtered ORFs
-                for orf_name in gene_object.dict_transcripts_assoc_orfs[
-                    transcript_name
-                ]:
+                for orf_name in gene_object.dict_transcripts_assoc_orfs[transcript_name]:
                     dict_all_ORFs_filtered[orf_name] = dict_all_ORFs_purge1[orf_name]
 
     # Return the dictionaries with filtered transcripts and all filtered ORFs

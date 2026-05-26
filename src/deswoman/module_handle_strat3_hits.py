@@ -1,11 +1,21 @@
 import os
 from Bio import SeqIO
-from deswoman.module_colors import openFile
+from Bio.SeqRecord import SeqRecord
+from module_colors import openFile
 
 
-def build_target_and_query_prot_list(
-    name_intermediate_directory: str, name_output_directory: str
-) -> None:
+__author__ = "Anna Grandchamp"
+__contributor__="Marie Lebherz"
+__copyright__ = ""
+__credits__ = []
+__license__ = ""
+__version__="1.0.0"
+__maintainer__ = "Anna Grandchamp"
+__email__ = "anna.grandchamp@inserm.fr"
+
+
+
+def build_target_and_query_prot_list(name_intermediate_directory : str, name_output_directory : str) -> None:
     """
     Creates two identical FASTA files containing all denovo proteins extracted from previous steps: one for the query and one for the target.
     These files are stored in the 'Intermediate_prot_BLAST' directory.
@@ -20,8 +30,8 @@ def build_target_and_query_prot_list(
     dico_all_seq = {}
     new_path = name_intermediate_directory + "/Intermediate_prot_BLAST"
     # if the folder does not exist as such, it is created
-    if os.path.exists(new_path) is False:
-        os.system("mkdir " + new_path)
+    if os.path.exists(new_path) == False:
+        os.system ("mkdir " + new_path)
     # path to all de novo prots extracted before
     path_denovo_prot = name_output_directory + "/denovo_protein.fa"
     for seq_record in SeqIO.parse(path_denovo_prot, "fasta"):
@@ -41,7 +51,7 @@ def build_target_and_query_prot_list(
     target_prot_file.close()
 
 
-def extract_coord(link_file: str) -> dict:
+def extract_coord(link_file : str) -> dict:
     """
     Parses the information file generated in Step 1 and 2, and extracts the unspliced position and chromosome of all denovo sequences.
 
@@ -59,11 +69,11 @@ def extract_coord(link_file: str) -> dict:
         name = elts_line[9]
         start = int(elts_line[10])
         stop = int(elts_line[11])
-        dico[name] = [chrom, start, stop]
+        dico[name] = [chrom,start,stop]
     return dico
 
 
-def assess_overlap(l1_old: list, l2_old: list) -> bool:
+def assess_overlap(l1_old : list, l2_old : list) -> bool:
     """
     This function checks if two given intervals (representing suspected orthologs) overlap on the same chromosome.
 
@@ -102,7 +112,7 @@ def assess_overlap(l1_old: list, l2_old: list) -> bool:
     return overlap
 
 
-def reduce_by_location(list_orthologs: list, query: str, dico_all_coord: dict) -> dict:
+def reduce_by_location(list_orthologs : list, query : str, dico_all_coord : dict) -> dict:
     """
     This function filters a list of suspected homologs for a given query based on genomic location,
     keeping only those that overlap with the query's genomic coordinates.
@@ -110,7 +120,7 @@ def reduce_by_location(list_orthologs: list, query: str, dico_all_coord: dict) -
     Parameters:
         list_orthologs (list): A list of suspected homologs (target genes).
         query (str): The name of the query gene.
-        dico_all_coord (dict): A dictionary containing the genomic coordinates (chromosome, start, stop)
+        dico_all_coord (dict): A dictionary containing the genomic coordinates (chromosome, start, stop) 
                                for each gene, with gene names as keys.
 
     Returns:
@@ -122,7 +132,7 @@ def reduce_by_location(list_orthologs: list, query: str, dico_all_coord: dict) -
     for target in list_orthologs:
         # assess the overlap between the query and its targets
         overlap = assess_overlap(dico_all_coord[query], dico_all_coord[target])
-        if overlap is True:
+        if overlap == True:
             if query not in correct_dico_homologs:
                 correct_dico_homologs[query] = [target]
             else:
@@ -131,11 +141,11 @@ def reduce_by_location(list_orthologs: list, query: str, dico_all_coord: dict) -
     if len(correct_dico_homologs) == 0:
         correct_dico_homologs[query] = []
     return correct_dico_homologs
+    
 
-
-def create_dico_all_prot_hit(my_file: list) -> dict:
+def create_dico_all_prot_hit(my_file : list) -> dict:
     """
-    This function creates a dictionary where each key is a query (denovo protein) and each value is another
+    This function creates a dictionary where each key is a query (denovo protein) and each value is another 
     dictionary representing its BLAST hits (targets). Hits to the query itself are removed.
 
     Parameters:
@@ -147,22 +157,22 @@ def create_dico_all_prot_hit(my_file: list) -> dict:
               a dictionary where the target proteins are keys and all have a value of 1 (indicating a hit).
     """
     dico_all_hits = {}
-    for line in my_file:
+    for line in my_file: 
         elts_line = line.split()
         query = elts_line[0]
         target = elts_line[1]
         if query in dico_all_hits:
             dico_all_hits[query][target] = 1
         else:
-            dico_all_hits[query] = {target: 1}
-    # remove hits to itself
+            dico_all_hits[query] = {target:1}
+    #remove hits to itself
     for query in dico_all_hits:
         if query in dico_all_hits[query]:
             del dico_all_hits[query][query]
     return dico_all_hits
 
 
-def fill_dico_orthogroups(dico_my_hits: dict, dico_orthogroups: dict) -> None:
+def fill_dico_orthogroups(dico_my_hits : dict, dico_orthogroups : dict) -> None:
     """
     Populates the dictionary of orthogroups with new orthogroups derived from BLAST hits.
 
@@ -174,7 +184,7 @@ def fill_dico_orthogroups(dico_my_hits: dict, dico_orthogroups: dict) -> None:
     Returns:
         None: The function modifies dico_orthogroups in place by adding new orthogroups.
     """
-    nb = len(dico_orthogroups) + 1
+    nb = len(dico_orthogroups) + 1 
     for denovo in dico_my_hits:
         my_orthogroup = dico_my_hits[denovo]
         my_orthogroup.append(denovo)
@@ -182,12 +192,7 @@ def fill_dico_orthogroups(dico_my_hits: dict, dico_orthogroups: dict) -> None:
         dico_orthogroups[newname] = my_orthogroup
 
 
-def handle_blast_inputs_transc(
-    dico_orthogroups: dict,
-    dico_name_size_denovo: dict,
-    name_intermediate_directory: str,
-    name_output_directory: str,
-) -> None:
+def handle_blast_inputs_transc(dico_orthogroups : dict, dico_name_size_denovo : dict, name_intermediate_directory : str, name_output_directory : str) -> None:
     """
     Processes BLAST results to identify and categorize ORFS orthogroups.
 
@@ -221,34 +226,21 @@ def handle_blast_inputs_transc(
         # create a dico with query as keys and their hts as target (hit to themselves are removed).
         dico_all_hits = create_dico_all_prot_hit(file_blast)
         # remove files that became unusefull.
-        os.system("rm " + name_intermediate_directory + "/diamond_transc_prot.out")
-        os.system(
-            "rm "
-            + name_intermediate_directory
-            + "/Intermediate_prot_BLAST/query_prot.fa"
-        )
-        os.system(
-            "rm "
-            + name_intermediate_directory
-            + "/Intermediate_prot_BLAST/target_prot.fa"
-        )
-        for query in dico_all_hits:  ## here retrieve reciprocal blast
+        os.system ("rm " + name_intermediate_directory + "/diamond_transc_prot.out")
+        os.system ("rm " + name_intermediate_directory + "/Intermediate_prot_BLAST/query_prot.fa")
+        os.system ("rm " + name_intermediate_directory + "/Intermediate_prot_BLAST/target_prot.fa")
+        for query in dico_all_hits: ## here retrieve reciprocal blast
             if query not in dico_already_attributed_hit:
                 suspected_orthogroup = []
                 # generate a dic with all query hits
                 dico_homologs_query = dico_all_hits[query]
                 for homolog in dico_homologs_query:
                     # here make sure of the reciprocal blast and the fact that the homolog does not already belong to a group where the query is not
-                    if (
-                        homolog not in dico_already_attributed_hit
-                        and query in dico_all_hits[homolog]
-                    ):
+                    if homolog not in dico_already_attributed_hit and query in dico_all_hits[homolog]:
                         suspected_orthogroup.append(homolog)
                 ## reduce orthogroup by overlapping location. If suspected_orthogroup suspected orthogroup is empty, the query is associated to an empty list in the dictionary, as well as if no homologs fits.
                 dico_correct_orthogroup = {}
-                dico_correct_orthogroup = reduce_by_location(
-                    suspected_orthogroup, query, dico_all_coord
-                )
+                dico_correct_orthogroup = reduce_by_location(suspected_orthogroup, query, dico_all_coord)
                 dico_already_attributed_hit[query] = 1
                 if len(dico_correct_orthogroup[query]) > 0:
                     for target in dico_correct_orthogroup[query]:
@@ -260,22 +252,16 @@ def handle_blast_inputs_transc(
         if denovo not in dico_already_attributed_hit:
             dico_no_hit_denovo[denovo] = []
     if len(dico_no_hit_denovo) > 0:
-        for i in (
-            dico_no_hit_denovo
-        ):  # ChangeMarie ##Prevent overwriting the elements in that dictionary
-            dico_no_hit_small = {
-                i: dico_no_hit_denovo[i]
-            }  # ChangeMarie ##A really dumb solution but it works
-            fill_dico_orthogroups(
-                dico_no_hit_small, dico_orthogroups
-            )  # ChangeMarie ##Adapt the dictionary name
+        for i in dico_no_hit_denovo:  #ChangeMarie ##Prevent overwriting the elements in that dictionary
+            dico_no_hit_small = {i:dico_no_hit_denovo[i]} #ChangeMarie ##A really dumb solution but it works
+            fill_dico_orthogroups(dico_no_hit_small, dico_orthogroups)#ChangeMarie ##Adapt the dictionary name
 
 
-def make_dico_name_denovo_strat2(name_output_directory: str) -> dict:
+def make_dico_name_denovo_strat2(name_output_directory : str) -> dict:
     """
     Extracts the names of all de novo proteins.
 
-    This function parses a FASTA file containing de novo protein sequences and
+    This function parses a FASTA file containing de novo protein sequences and 
     stores their identifiers in a dictionary.
 
     Parameters:
@@ -291,17 +277,15 @@ def make_dico_name_denovo_strat2(name_output_directory: str) -> dict:
     return dico_name_denovo
 
 
-def build_final_file_strat2_step3(
-    dico_orthogroups: dict, name_intermediate_directory: str, name_output_directory: str
-) -> None:
+def build_final_file_strat2_step3(dico_orthogroups : dict, name_intermediate_directory : str, name_output_directory : str) -> None:
     """
     Builds the final output file for step 3 of strategy 2.
 
-    This function removes the temporary directory used for intermediate protein BLAST results
+    This function removes the temporary directory used for intermediate protein BLAST results 
     and writes the final orthogroup assignments to an output file.
 
     Parameters:
-        dico_orthogroups (dict): A dictionary containing orthogroups, where keys are orthogroup names
+        dico_orthogroups (dict): A dictionary containing orthogroups, where keys are orthogroup names 
                                  and values are lists of protein names.
         name_intermediate_directory (str): Path to the intermediate directory.
         name_output_directory (str): Path to the outgroup directory where the final file is stored.
@@ -309,9 +293,9 @@ def build_final_file_strat2_step3(
     Returns:
         None: The function writes the results to 'Orthogroup_output_step3.txt' in the outgroup directory.
     """
-    link_dir = name_intermediate_directory + "/Intermediate_prot_BLAST"
-    os.system("rm -r " + link_dir)
-    link_new_output_file = name_output_directory + "/Orthogroup_output_step3.txt"
+    link_dir = name_intermediate_directory + "/Intermediate_prot_BLAST" 
+    os.system ("rm -r " + link_dir)
+    link_new_output_file  = name_output_directory + "/Groups_of_neORFs_step3.txt"
     new_file = open(link_new_output_file, "w")
     for orthogroup in dico_orthogroups:
         new_file.write(orthogroup)
@@ -322,3 +306,4 @@ def build_final_file_strat2_step3(
                 new_file.write("," + names)
         new_file.write("\n")
     new_file.close()
+
