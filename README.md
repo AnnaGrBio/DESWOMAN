@@ -79,6 +79,8 @@ Moreover, DESwoMAN is developped in python (v3.0 or +). It therefore requires to
 
 ```console
 user@comp:~/directory$ rpm -ivh ncbi-blast-2.2.18-1.x86\_64.rpm
+OR
+user@comp:sudo apt install ncbi-blast+
 ```
 
 ### 2. Install [DIAMOND](https://github.com/bbuchfink/diamond/wiki) (linux)
