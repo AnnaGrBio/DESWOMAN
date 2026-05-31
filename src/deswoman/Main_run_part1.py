@@ -43,7 +43,14 @@ from deswoman.module_reformat_dico_with_IDs import (
     implement_dict_all_ORFs_filtered_with_stop,
     implement_dict_transcript_fasta_denovo,
 )
-from deswoman.module_colors import *
+from deswoman.module_colors import (
+    openFile,
+    BRIGHT_BLUE,
+    BRIGHT_CYAN,
+    BRIGHT_MAGENTA,
+    YELLOW,
+    RESET,
+)
 
 
 def run_part_1_strat1(dico_variables: dict) -> bool:

@@ -3,12 +3,14 @@ from Bio import SeqIO
 import importlib.resources
 
 
-def extract_orfs(dico_variables : dict, sequence : str, transc_name : str, dico_orfs : dict) -> None:
+def extract_orfs(
+    dico_variables: dict, sequence: str, transc_name: str, dico_orfs: dict
+) -> None:
     """
     Extracts Open Reading Frames (ORFs) from a given transcript sequence based on start and stop codons.
-    
-    This function identifies potential ORFs in the provided nucleotide sequence by scanning for 
-    the start codon "ATG" and one of the stop codons ("TAG", "TAA", "TGA"). It collects ORFs with lengths 
+
+    This function identifies potential ORFs in the provided nucleotide sequence by scanning for
+    the start codon "ATG" and one of the stop codons ("TAG", "TAA", "TGA"). It collects ORFs with lengths
     greater than a minimum threshold and stores them in a dictionary with unique names. The function
     processes the sequence in different reading frames (starting at positions 0, 1, or 2) and allows for a
     maximum ORF size limit.
@@ -17,10 +19,10 @@ def extract_orfs(dico_variables : dict, sequence : str, transc_name : str, dico_
     -----------
     sequence : str
         A nucleotide sequence (DNA or RNA) from which ORFs are to be extracted.
-    
+
     transc_name : str
         The name of the transcript to which the ORFs belong. This will be used to generate unique ORF names.
-    
+
     dico_orfs : dict
         A dictionary that will be populated with ORFs. The keys will be ORF names (generated using the transcript name and positions),
         and the values will be the corresponding ORF sequences.
@@ -47,13 +49,15 @@ def extract_orfs(dico_variables : dict, sequence : str, transc_name : str, dico_
     if len(sequence) >= min_size:
         while start_pos < 3:
             iter = start_pos
-            while iter < (len(sequence)+1-min_size):#in range(start_pos, (len(sequence)+1-min_size), 3):
-                start = sequence[iter:iter+3].upper()
+            while iter < (
+                len(sequence) + 1 - min_size
+            ):  # in range(start_pos, (len(sequence)+1-min_size), 3):
+                start = sequence[iter : iter + 3].upper()
                 stop_attributed = False
-                if start == start_codon_to_search:  #old : if start == "ATG"
-                    for iter2 in range((iter + 3) , iter + max_size, 3):
+                if start == start_codon_to_search:  # old : if start == "ATG"
+                    for iter2 in range((iter + 3), iter + max_size, 3):
                         if iter2 + 2 < len(sequence):
-                            stop = sequence[iter2:iter2+3].upper()
+                            stop = sequence[iter2 : iter2 + 3].upper()
                             if stop in list_stops:
                                 if (iter2 + 3 - iter) < min_size:
                                     break
@@ -61,21 +65,29 @@ def extract_orfs(dico_variables : dict, sequence : str, transc_name : str, dico_
                                     my_orf = sequence[iter:iter2]
                                     official_start = str(iter + 1)
                                     official_stop = str(iter2)
-                                    new_orf_name = transc_name + "_" + str(compteur) + "_" + official_start + "_" + official_stop
+                                    new_orf_name = (
+                                        transc_name
+                                        + "_"
+                                        + str(compteur)
+                                        + "_"
+                                        + official_start
+                                        + "_"
+                                        + official_stop
+                                    )
                                     dico_orfs[new_orf_name] = my_orf
                                     compteur += 1
                                     stop_attributed = True
                                     break
                         else:
                             break
-                if stop_attributed == True:
-                    iter = iter2+3
+                if stop_attributed:
+                    iter = iter2 + 3
                 else:
                     iter += 3
-            start_pos += 1 
+            start_pos += 1
 
 
-def my_get_orfs(dico_variables, name_output_directory : str) -> dict:
+def my_get_orfs(dico_variables, name_output_directory: str) -> dict:
     """
     Extracts all Open Reading Frames (ORFs) from all transcripts in a FASTA file.
 
@@ -107,7 +119,7 @@ def my_get_orfs(dico_variables, name_output_directory : str) -> dict:
             ID_seq = str(seq_record.id)
             sequence = str(seq_record.seq)
             extract_orfs(dico_variables, sequence, ID_seq, dico_orfs)
-    os.remove(file_name) 
+    os.remove(file_name)
     return dico_orfs
 
 
@@ -549,7 +561,7 @@ def generate_list_genes_objects(
     return list_gene_object
 
 
-def generate_dico_kozac() -> (dict, dict):
+def generate_dico_kozac() -> tuple[dict, dict]:
     """
     This function generates two dictionaries containing Kozac scores: one for predicted Kozac scores and another for relative Kozac strength.
     The function reads data from a Kozac prediction file and populates the dictionaries with Kozac sequences and their corresponding scores.
@@ -641,7 +653,7 @@ def sort_orfs_by_properties(
     option_list: list,
     dict_all_ORFs_purge1: dict,
     dict_gene_status: dict,
-) -> (dict, dict):
+) -> tuple[dict, dict]:
     """
     This function processes a list of Gene objects and filters their associated ORFs based on specified properties.
     It handles the following filtering:
@@ -696,12 +708,12 @@ def sort_orfs_by_properties(
                 gene_object.min_size_utr(option[1], option[2])
             elif option[0] == "duplicate_handle":
                 gene_object.handle_orf_duplicate_per_transcript()
-            if filter_gene == True:
+            if filter_gene:
                 if dict_gene_status[gene_object.gene_name] == "genic":
                     discard_gene = True
 
         # Iterate through the transcripts associated with the current Gene object (is the user want a denovo gene, only these will be written)
-        if discard_gene == False:
+        if not discard_gene:
             for transcript_name in gene_object.dict_transcripts_assoc_orfs:
                 # Update the dictionary with filtered transcripts and associated ORFs
                 dict_transcrit_filtered_orfs[transcript_name] = (

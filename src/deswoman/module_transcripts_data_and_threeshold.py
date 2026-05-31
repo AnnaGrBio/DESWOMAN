@@ -462,7 +462,7 @@ def get_transcripts_properties(opened_gtf_file: list) -> dict:
     return dico_transcripts
 
 
-def store_transcriptome_seq(opened_transcriptome_file: list) -> dict:
+def store_transcriptome_seq(opened_transcriptome_file: str) -> dict:
     """
     Parses a transcriptome FASTA file and stores each transcript in a dictionary.
 

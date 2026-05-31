@@ -37,7 +37,13 @@ from deswoman.module_handle_strat3_hits import (
     build_final_file_strat2_step3,
 )
 from deswoman.module_remove_extra_files import remove_intermediates
-from deswoman.module_colors import *
+from deswoman.module_colors import (
+    BRIGHT_BLUE,
+    BRIGHT_CYAN,
+    BRIGHT_MAGENTA,
+    YELLOW,
+    RESET,
+)
 
 
 def run_part3_strat1(dico_variables: dict) -> None:
@@ -89,7 +95,7 @@ def run_part3_strat1(dico_variables: dict) -> None:
     # generate path where to store blast output from step 3
     path_recip_blast = name_intermediate_directory + "/blast_denovo_to_target_genome"
     # create the folder
-    if os.path.isdir(path_recip_blast) == False:
+    if not os.path.isdir(path_recip_blast):
         os.system("mkdir " + path_recip_blast)
     # run then for each target species of the dictionnary
     for pop_species_name in dico_target_species_lines:

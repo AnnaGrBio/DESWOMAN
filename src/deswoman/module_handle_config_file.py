@@ -685,7 +685,9 @@ def validate_premature_stop(
         return False
 
 
-def my_config_file_extract_parameters(link_config: str, strategy: int) -> None:
+def my_config_file_extract_parameters(
+    link_config: str, strategy: int
+) -> tuple[dict, bool]:
     """
     Extracts and validates configuration parameters from the provided config file.
 
@@ -722,7 +724,7 @@ def my_config_file_extract_parameters(link_config: str, strategy: int) -> None:
         "link_database_outgroup_nucl": "",
         "TPM_threeshold": 0.5,
         "transcript_overlap": ["intergenic"],
-        "start_codon" : "ATG",
+        "start_codon": "ATG",
         "ORFs_choice": [["longest"], ["duplicate_handle"], ["utr_size", 0, 0]],
         "filter_genic": False,
         "filter_TE": "False",
@@ -788,8 +790,8 @@ def my_config_file_extract_parameters(link_config: str, strategy: int) -> None:
         )
 
     if validate_input == True and "start_codon" in dico_config:
-        dico_variables["start_codon"] =  dico_config["start_codon"]
-        
+        dico_variables["start_codon"] = dico_config["start_codon"]
+
     if validate_input == True and "ORFs_choice" in dico_config:
         validate_input = validate_orf_choice(dico_variables, "ORFs_choice", dico_config)
     if validate_input == True and "five_prime" in dico_config:

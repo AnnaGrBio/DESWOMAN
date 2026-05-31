@@ -2,7 +2,14 @@ import os
 from Bio import SeqIO
 from deswoman.module_graphical_interface_strat2 import my_graphical_interface_strategy2
 from deswoman.module_handle_config_file import my_config_file_extract_parameters
-from deswoman.module_colors import *
+from deswoman.module_colors import (
+    openFile,
+    BRIGHT_RED,
+    BRIGHT_GREEN,
+    ORANGE,
+    YELLOW,
+    RESET,
+)
 
 
 def validate_presence_of_mandatory_parameters_strat2(
@@ -208,7 +215,7 @@ def validate_presence_query_name_strat2(dico_variables: dict, RUN_PYTHON: bool) 
     )
     presence_gff = validate_presence_query_gff_strat2(query_name, path_to_genome)
     # make sure a reference genome is present in fasta and gff format
-    if presence_fasta_genome == False:
+    if not presence_fasta_genome:
         RUN_PYTHON = False
         name_fasta_genome = query_name + (".fasta")
         print(
@@ -218,7 +225,7 @@ def validate_presence_query_name_strat2(dico_variables: dict, RUN_PYTHON: bool) 
             + " (or .fa|.fna) not present in genome folder"
             + RESET
         )
-    if presence_gff == False:
+    if not presence_gff:
         RUN_PYTHON = False
         name_gff_genome = query_name + (".gff")
         print(
@@ -453,28 +460,44 @@ def is_gtf_strat2(filename: str) -> bool:
     return correct_gtf
 
 
-def validate_start_codon(dico_variables : dict) -> bool:
+def validate_start_codon(dico_variables: dict) -> bool:
     value_param = dico_variables["start_codon"]
-    if type(value_param) == str:
+    if isinstance(value_param, str):
         if len(value_param) == 3:
             is_dna = all(c in "atgc" for c in value_param.lower())
-            if is_dna == True:
+            if is_dna:
                 value_param = value_param.upper()
                 return True
             else:
-                print (BRIGHT_RED + "ERROR... THE START CODON " + RESET + value_param + BRIGHT_RED + " MUST CONSIST OF NUCLEOTIDES BASES (A,T,G or C) ..." + RESET)
+                print(
+                    BRIGHT_RED
+                    + "ERROR... THE START CODON "
+                    + RESET
+                    + value_param
+                    + BRIGHT_RED
+                    + " MUST CONSIST OF NUCLEOTIDES BASES (A,T,G or C) ..."
+                    + RESET
+                )
                 return False
         else:
-            print (BRIGHT_RED + "ERROR... THE START CODON " + RESET + value_param + BRIGHT_RED + " MUST CONSIST OF 3 NUCLEOTIDES ..." + RESET)
+            print(
+                BRIGHT_RED
+                + "ERROR... THE START CODON "
+                + RESET
+                + value_param
+                + BRIGHT_RED
+                + " MUST CONSIST OF 3 NUCLEOTIDES ..."
+                + RESET
+            )
             return False
     else:
-        print (BRIGHT_RED + "ERROR... THE ORF CHOICE MUST BE A STRING" + RESET )
+        print(BRIGHT_RED + "ERROR... THE ORF CHOICE MUST BE A STRING" + RESET)
         return False
 
 
 def search_liste_name_target_transcriptome_strat2(
     query_name: str, path_transcriptome_folder: str
-) -> (list, list, list):
+) -> tuple[list, list, list]:
     """
     Extracts the names of target transcriptomes from a transcriptome folder.
 
@@ -530,7 +553,7 @@ def search_liste_name_target_transcriptome_strat2(
 
 def validate_target_transcriptomes_strat2(
     dico_variables: dict, RUN_PYTHON: bool
-) -> (bool, list):
+) -> tuple[bool, list]:
     """
     Assesses the presence and validity of target transcriptomes and their corresponding GTF annotations.
 
@@ -590,7 +613,7 @@ def validate_target_transcriptomes_strat2(
                 annotation_valid = is_gtf_strat2(link_to_annotation)
                 break
         # write warning messages if needed
-        if transcriptome_p == False:
+        if not transcriptome_p:
             print(
                 ORANGE
                 + "WARNING : query "
@@ -606,7 +629,7 @@ def validate_target_transcriptomes_strat2(
                 + RESET
             )
             liste_name_to_remove.append(name)
-        if annotation_p == False:
+        if not annotation_p:
             print(
                 ORANGE
                 + "WARNING : query "
@@ -622,7 +645,7 @@ def validate_target_transcriptomes_strat2(
                 + RESET
             )
             liste_name_to_remove.append(name)
-        if transcriptome_valid == False:
+        if not transcriptome_valid:
             RUN_PYTHON = False
             print(
                 BRIGHT_RED
@@ -631,7 +654,7 @@ def validate_target_transcriptomes_strat2(
                 + " transcriptome seems to NOT be in FASTA format"
                 + RESET
             )
-        if annotation_valid == False:
+        if not annotation_valid:
             RUN_PYTHON = False
             print(
                 BRIGHT_RED
@@ -720,7 +743,7 @@ def validate_file_content_query_strat2(dico_variables: dict, RUN_PYTHON: bool) -
     fasta_genome_correct = is_fasta_strat2(fasta_genome)
     gff_genome_correct = is_gff_strat2(gff_genome)
 
-    if fasta_genome_correct == False:
+    if not fasta_genome_correct:
         RUN_PYTHON = False
         print(
             BRIGHT_RED
@@ -728,7 +751,7 @@ def validate_file_content_query_strat2(dico_variables: dict, RUN_PYTHON: bool) -
             + RESET
         )
 
-    if gff_genome_correct == False:
+    if not gff_genome_correct:
         RUN_PYTHON = False
         print(
             BRIGHT_RED
@@ -793,7 +816,7 @@ def display_parameters_strat2(dico_variables: dict) -> None:
         + RESET
         + str(dico_variables["transcript_overlap"])
     )
-    print (BRIGHT_GREEN + "Start codon : " + RESET + str(dico_variables["start_codon"]))
+    print(BRIGHT_GREEN + "Start codon : " + RESET + str(dico_variables["start_codon"]))
     for option in dico_variables["ORFs_choice"]:
         if option[0] == "utr_size":
             if option[1] != 0:
@@ -903,7 +926,7 @@ def assess_blast_datasets_strat2(dico_variables: dict, RUN_PYTHON: bool) -> bool
 
     if link_prot_dataset != "":
         RUN_PYTHON = is_fasta_strat2(link_prot_dataset)
-        if RUN_PYTHON == False:
+        if not RUN_PYTHON:
             print(
                 BRIGHT_RED
                 + "ERROR : dataset for protein homology search seems to not be in FASTA format"
@@ -911,15 +934,15 @@ def assess_blast_datasets_strat2(dico_variables: dict, RUN_PYTHON: bool) -> bool
             )
         else:
             RUN_PYTHON = is_prot_strat2(link_prot_dataset)
-            if RUN_PYTHON == False:
+            if not RUN_PYTHON:
                 print(
                     BRIGHT_RED
                     + "ERROR : dataset for protein homology search does not seem to contain proteins"
                     + RESET
                 )
-    if RUN_PYTHON == True and link_nucl_dataset != "":
+    if RUN_PYTHON and link_nucl_dataset != "":
         RUN_PYTHON = is_fasta_strat2(link_nucl_dataset)
-        if RUN_PYTHON == False:
+        if not RUN_PYTHON:
             print(
                 BRIGHT_RED
                 + "ERROR : dataset for nucl homology search seems to not be in FASTA format"
@@ -927,7 +950,7 @@ def assess_blast_datasets_strat2(dico_variables: dict, RUN_PYTHON: bool) -> bool
             )
         else:
             RUN_PYTHON = is_nucl_strat2(link_nucl_dataset)
-            if RUN_PYTHON == False:
+            if not RUN_PYTHON:
                 print(
                     BRIGHT_RED
                     + "ERROR : dataset for nucl homology search does not seem to contain DNA/RNA"
@@ -960,7 +983,7 @@ def display_welcome() -> None:
     print(BRIGHT_GREEN + " " + RESET)
 
 
-def assess_parameters_strat2(link_config: str) -> (bool, dict):
+def assess_parameters_strat2(link_config: str) -> tuple[bool, dict]:
     """
     Main function for Strategy 2 parameter assessment in the DESwoMAN workflow.
 
@@ -982,42 +1005,41 @@ def assess_parameters_strat2(link_config: str) -> (bool, dict):
 
     Returns:
     --------
-    bool
-        A boolean value `RUN_PYTHON` indicating whether the checks passed (`True`) or failed (`False`).
-
-    dict
-        The updated `dico_variables` dictionary containing user-provided parameters and paths for the workflow.
+    tuple[bool, dict]
+        A tuple containing:
+        - A boolean value `RUN_PYTHON` indicating whether the checks passed (`True`) or failed (`False`).
+        - The updated `dico_variables` dictionary containing user-provided parameters and paths for the workflow.
     """
 
     RUN_PYTHON = True
-    if link_config == False:
+    if not link_config:
         dico_variables = my_graphical_interface_strategy2()  # dico_variables is retrived from the parameters chosen by the user in the graphical interface
         display_welcome()
     else:
         display_welcome()
         dico_variables, RUN_PYTHON = my_config_file_extract_parameters(link_config, 2)
-    if RUN_PYTHON == True:
+    if RUN_PYTHON:
         # display the user choices entered in the graphical interface so that the person can realise if some parameter has to be modified
         display_parameters_strat2(dico_variables)
         # assess the presence of mandatory folders path and query name
         RUN_PYTHON = validate_presence_of_mandatory_parameters_strat2(
             dico_variables, RUN_PYTHON
         )
-    if RUN_PYTHON == True:
+    if RUN_PYTHON:
         # assess that query genome is in the folders
         RUN_PYTHON = validate_presence_query_name_strat2(dico_variables, RUN_PYTHON)
-    if RUN_PYTHON == True:
+    if RUN_PYTHON:
         # assess that the user did not unselect all transcripts genomic locations
         RUN_PYTHON = check_genomic_overlap_strat2(dico_variables, RUN_PYTHON)
-    if RUN_PYTHON == True:
+    if RUN_PYTHON:
         # try to make sure all query files (fasta, gff) are not corrupted or in a wrong format
         RUN_PYTHON = validate_file_content_query_strat2(dico_variables, RUN_PYTHON)
-    if RUN_PYTHON == True:
+    if RUN_PYTHON:
         # withdraw query transcriptomes names and validate formats for transcriptoems
         RUN_PYTHON, list_transcriptome_name = validate_target_transcriptomes_strat2(
             dico_variables, RUN_PYTHON
         )
-    if RUN_PYTHON == True:
+    if RUN_PYTHON:
         # a minimum of 2 query transcriptomes are required for strategy 2
         if len(list_transcriptome_name) < 2:
             RUN_PYTHON = False
@@ -1026,15 +1048,22 @@ def assess_parameters_strat2(link_config: str) -> (bool, dict):
                 + "ERROR : The transcriptome folder contains 0 or 1 valid transcriptome (min required : 2)"
                 + RESET
             )
-    if RUN_PYTHON == True:
+    if RUN_PYTHON:
         # double check the start codon is correct
         RUN_PYTHON = validate_start_codon(dico_variables)
-    if RUN_PYTHON == True:
+    if RUN_PYTHON:
         # make sure codon start is ATG in case user take kozac_highest
-        if dico_variables["ORFs_choice"][0][0] == "kozac_highest" and dico_variables["start_codon"] != "ATG":
+        if (
+            dico_variables["ORFs_choice"][0][0] == "kozac_highest"
+            and dico_variables["start_codon"] != "ATG"
+        ):
             RUN_PYTHON = False
-            print (BRIGHT_RED + "ERROR : if the ORF choice is kozac_highest, the start codon must be ATG." + RESET)
-    if RUN_PYTHON == True:
+            print(
+                BRIGHT_RED
+                + "ERROR : if the ORF choice is kozac_highest, the start codon must be ATG."
+                + RESET
+            )
+    if RUN_PYTHON:
         # make sure the dataset for BLAST contain DNA and proteins
         RUN_PYTHON = assess_blast_datasets_strat2(dico_variables, RUN_PYTHON)
         # implement the arbitraty path to the folders where to store results
@@ -1045,27 +1074,3 @@ def assess_parameters_strat2(link_config: str) -> (bool, dict):
             dico_variables["path_output"] + "/Intermediate_output"
         )
     return RUN_PYTHON, dico_variables
-
-
-### test ###
-
-# dico_variables = my_graphical_interface_strategy1()
-# dico_variables = {'strategy': '2',
-#'query': 'Ref',
-#'path_to_genome_repository': '/home/anna/Bureau/Allemagne_recherche/DESMAN/desman_feb16_with_strat_2/genomes_strat2',
-#'path_to_transcriptome_repository': '/home/anna/Bureau/Allemagne_recherche/DESMAN/desman_feb16_with_strat_2/transcriptomes_strat2',
-#'link_database_outgroup_prot': '/home/anna/Bureau/Allemagne_recherche/DESMAN/blast_database/All_Ants.fasta',
-#'link_database_outgroup_nucl': '',
-#'TPM_threeshold': 0.5,
-#'transcript_overlap': ['intergenic'],
-#'ORFs_choice': [['longest'], ['duplicate_handle'], ['utr_size', '10', '10']],
-#'filter_genic': False,
-#'filter_TE': 'False',
-#'rm_undir_transc': 'False',
-#'parameters_database_prot': {'type': 'blastp', 'mode': '--more-sensitive'},
-#'parameters_database_nucl': {'type': 'blastn', 'e_value': '0.01', 'coverage': None, 'strand': None},
-#'rec_best_hit': 'False',
-#'synteny_window': 2,
-#'premature_stop': 50}
-# print (dico_variables)
-# /home/anna/Bureau/Allemagne_recherche/DESMAN/blast_database/AK5-families.fa
