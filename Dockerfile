@@ -1,4 +1,4 @@
-FROM ghcr.io/astral-sh/uv:bookworm-slim
+FROM ghcr.io/astral-sh/uv:python3.12-bookworm-slim
 
 RUN apt-get update && \
     apt-get upgrade --yes
