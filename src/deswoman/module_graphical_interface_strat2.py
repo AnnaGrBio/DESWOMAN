@@ -1,9 +1,3 @@
-from tkinter import *
-import customtkinter
-from tkinter.filedialog import *
-from tkinter import filedialog
-
-
 ###########################
 # window left : Input data
 ###########################
@@ -607,6 +601,12 @@ def graphical_start_codon(
 
 
 def my_graphical_interface_strategy2():
+
+    from tkinter import *
+    import customtkinter
+    from tkinter.filedialog import *
+    from tkinter import filedialog
+
     """
     Creates and displays the graphical user interface (GUI) for strategy 2 using the customtkinter library.
 
