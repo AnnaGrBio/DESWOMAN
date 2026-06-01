@@ -853,7 +853,7 @@ def graphical_percent_pos_stop_strat1(
 
 
 def my_graphical_interface_strategy1() -> dict:
-    from tkinter import *
+    from tkinter import Tk, Label, Button
     import customtkinter
     from tkinter.filedialog import *
     from tkinter import filedialog
