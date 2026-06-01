@@ -1,3 +1,7 @@
+import customtkinter
+from tkinter import Tk, Label, Button, StringVar, IntVar, Entry, Spinbox, Canvas, PhotoImage, CENTER
+from tkinter.filedialog import askopenfilename, askdirectory
+import tkinter.filedialog as filedialog
 
 ###########################
 # window top left : Input data
@@ -853,13 +857,6 @@ def graphical_percent_pos_stop_strat1(
 
 
 def my_graphical_interface_strategy1() -> dict:
-    import customtkinter
-
-    globals()["customtkinter"] = customtkinter
-
-    from tkinter import Tk, Label, Button
-    from tkinter.filedialog import askopenfilename
-    from tkinter import filedialog
     """
     Creates and displays the graphical user interface (GUI) for strategy 1 using the customtkinter library.
 
