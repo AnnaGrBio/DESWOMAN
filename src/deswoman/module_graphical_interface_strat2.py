@@ -602,7 +602,7 @@ def graphical_start_codon(
 
 def my_graphical_interface_strategy2():
 
-    from tkinter import *
+    from tkinter import Tk, Label, Button
     import customtkinter
     from tkinter.filedialog import *
     from tkinter import filedialog
