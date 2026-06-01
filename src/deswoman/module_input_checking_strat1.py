@@ -1,6 +1,5 @@
 import os
 from Bio import SeqIO
-from deswoman.module_graphical_interface_strat1 import my_graphical_interface_strategy1
 from deswoman.module_handle_config_file import my_config_file_extract_parameters
 from deswoman.module_colors import *
 
@@ -1251,6 +1250,7 @@ def assess_parameters_strat1(link_config: str) -> (bool, dict):
 
     RUN_PYTHON = True
     if link_config == False:
+        from deswoman.module_graphical_interface_strat1 import my_graphical_interface_strategy1
         dico_variables = my_graphical_interface_strategy1()  # dico_variables is retrived from the parameters chosen by the user in the graphical interface
         display_welcome()
     else:
