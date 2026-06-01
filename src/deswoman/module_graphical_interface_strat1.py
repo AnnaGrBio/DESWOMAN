@@ -853,9 +853,10 @@ def graphical_percent_pos_stop_strat1(
 
 
 def my_graphical_interface_strategy1() -> dict:
-    global customtkinter
-
     import customtkinter
+
+    globals()["customtkinter"] = customtkinter
+
     from tkinter import Tk, Label, Button
     from tkinter.filedialog import askopenfilename
     from tkinter import filedialog
