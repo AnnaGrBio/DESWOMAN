@@ -855,7 +855,7 @@ def graphical_percent_pos_stop_strat1(
 def my_graphical_interface_strategy1() -> dict:
     from tkinter import Tk, Label, Button
     import customtkinter
-    from tkinter.filedialog import *
+    from tkinter.filedialog import askopenfilename
     from tkinter import filedialog
     """
     Creates and displays the graphical user interface (GUI) for strategy 1 using the customtkinter library.
