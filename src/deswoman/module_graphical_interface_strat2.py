@@ -604,7 +604,7 @@ def my_graphical_interface_strategy2():
 
     from tkinter import Tk, Label, Button
     import customtkinter
-    from tkinter.filedialog import *
+    from tkinter.filedialog import askopenfilename
     from tkinter import filedialog
 
     """
