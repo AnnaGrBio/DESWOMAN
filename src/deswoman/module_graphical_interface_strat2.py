@@ -602,9 +602,10 @@ def graphical_start_codon(
 
 def my_graphical_interface_strategy2():
 
-    global customtkinter
-
     import customtkinter
+
+    globals()["customtkinter"] = customtkinter
+
     from tkinter import Tk, Label, Button
     from tkinter.filedialog import askopenfilename
     from tkinter import filedialog
