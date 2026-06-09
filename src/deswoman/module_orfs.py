@@ -3,7 +3,9 @@ from Bio import SeqIO
 import importlib.resources
 
 
-def extract_orfs(sequence: str, transc_name: str, dico_orfs: dict) -> None:
+def extract_orfs(
+    dico_variables: dict, sequence: str, transc_name: str, dico_orfs: dict
+) -> None:
     """
     Extracts Open Reading Frames (ORFs) from a given transcript sequence based on start and stop codons.
 
@@ -41,7 +43,7 @@ def extract_orfs(sequence: str, transc_name: str, dico_orfs: dict) -> None:
     min_size = 91
     max_size = 9000
     compteur = 1
-
+    start_codon_to_search = dico_variables["start_codon"]
     start_pos = 0
     ## Frame 1
     if len(sequence) >= min_size:
@@ -52,7 +54,7 @@ def extract_orfs(sequence: str, transc_name: str, dico_orfs: dict) -> None:
             ):  # in range(start_pos, (len(sequence)+1-min_size), 3):
                 start = sequence[iter : iter + 3].upper()
                 stop_attributed = False
-                if start == "ATG":
+                if start == start_codon_to_search:  # old : if start == "ATG"
                     for iter2 in range((iter + 3), iter + max_size, 3):
                         if iter2 + 2 < len(sequence):
                             stop = sequence[iter2 : iter2 + 3].upper()
@@ -78,14 +80,14 @@ def extract_orfs(sequence: str, transc_name: str, dico_orfs: dict) -> None:
                                     break
                         else:
                             break
-                if stop_attributed == True:
+                if stop_attributed:
                     iter = iter2 + 3
                 else:
                     iter += 3
             start_pos += 1
 
 
-def my_get_orfs(name_output_directory: str) -> dict:
+def my_get_orfs(dico_variables, name_output_directory: str) -> dict:
     """
     Extracts all Open Reading Frames (ORFs) from all transcripts in a FASTA file.
 
@@ -116,7 +118,7 @@ def my_get_orfs(name_output_directory: str) -> dict:
         for seq_record in SeqIO.parse(file_name, "fasta"):
             ID_seq = str(seq_record.id)
             sequence = str(seq_record.seq)
-            extract_orfs(sequence, ID_seq, dico_orfs)
+            extract_orfs(dico_variables, sequence, ID_seq, dico_orfs)
     os.remove(file_name)
     return dico_orfs
 
@@ -559,7 +561,7 @@ def generate_list_genes_objects(
     return list_gene_object
 
 
-def generate_dico_kozac() -> (dict, dict):
+def generate_dico_kozac() -> tuple[dict, dict]:
     """
     This function generates two dictionaries containing Kozac scores: one for predicted Kozac scores and another for relative Kozac strength.
     The function reads data from a Kozac prediction file and populates the dictionaries with Kozac sequences and their corresponding scores.
@@ -651,7 +653,7 @@ def sort_orfs_by_properties(
     option_list: list,
     dict_all_ORFs_purge1: dict,
     dict_gene_status: dict,
-) -> (dict, dict):
+) -> tuple[dict, dict]:
     """
     This function processes a list of Gene objects and filters their associated ORFs based on specified properties.
     It handles the following filtering:
@@ -706,12 +708,12 @@ def sort_orfs_by_properties(
                 gene_object.min_size_utr(option[1], option[2])
             elif option[0] == "duplicate_handle":
                 gene_object.handle_orf_duplicate_per_transcript()
-            if filter_gene == True:
+            if filter_gene:
                 if dict_gene_status[gene_object.gene_name] == "genic":
                     discard_gene = True
 
         # Iterate through the transcripts associated with the current Gene object (is the user want a denovo gene, only these will be written)
-        if discard_gene == False:
+        if not discard_gene:
             for transcript_name in gene_object.dict_transcripts_assoc_orfs:
                 # Update the dictionary with filtered transcripts and associated ORFs
                 dict_transcrit_filtered_orfs[transcript_name] = (

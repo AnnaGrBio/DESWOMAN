@@ -311,7 +311,7 @@ def build_final_file_strat2_step3(
     """
     link_dir = name_intermediate_directory + "/Intermediate_prot_BLAST"
     os.system("rm -r " + link_dir)
-    link_new_output_file = name_output_directory + "/Orthogroup_output_step3.txt"
+    link_new_output_file = name_output_directory + "/Groups_of_neORFs_step3.txt"
     new_file = open(link_new_output_file, "w")
     for orthogroup in dico_orthogroups:
         new_file.write(orthogroup)

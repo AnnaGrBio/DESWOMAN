@@ -43,7 +43,14 @@ from deswoman.module_reformat_dico_with_IDs import (
     implement_dict_all_ORFs_filtered_with_stop,
     implement_dict_transcript_fasta_denovo,
 )
-from deswoman.module_colors import *
+from deswoman.module_colors import (
+    openFile,
+    BRIGHT_BLUE,
+    BRIGHT_CYAN,
+    BRIGHT_MAGENTA,
+    YELLOW,
+    RESET,
+)
 
 
 def run_part_1_strat1(dico_variables: dict) -> bool:
@@ -152,7 +159,7 @@ def run_part_1_strat1(dico_variables: dict) -> bool:
 
     # Part3 : retrieve orfs from de novo transcripts and reduce them by properties
     # extracts all ORFs from all transcripts
-    dict_all_ORFs = my_get_orfs(name_output_directory)
+    dict_all_ORFs = my_get_orfs(dico_variables, name_output_directory)
     if len(dict_all_ORFs) > 0:
         print(
             BRIGHT_BLUE
@@ -370,7 +377,7 @@ def run_part_1_strat2(dico_variables: dict) -> bool:
 
         # Part3 : retrieve orfs from de novo transcripts and reduce them by properties
         # extracts all ORFs from all transcripts
-        dict_all_ORFs = my_get_orfs(name_output_directory)
+        dict_all_ORFs = my_get_orfs(dico_variables, name_output_directory)
         if len(dict_all_ORFs) > 0:
             print(
                 BRIGHT_BLUE

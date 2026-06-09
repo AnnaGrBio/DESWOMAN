@@ -1,9 +1,9 @@
 import os
-from Bio import Align  # ***
+from Bio import Align
 from deswoman.module_colors import openFile
 
 
-def check_ali(seq: str) -> bool:
+def check_ali(seq: str, user_start_codon: str) -> bool:
     """
     This function checks if the start codon (ATG) and stop codon (TAG, TAA, TGA) are intact in the alignment.
     If both the start and stop codons are not interrupted by gaps ('-'), the alignment is considered valid.
@@ -26,11 +26,11 @@ def check_ali(seq: str) -> bool:
             break
     stop = seq[numbers - 2 : numbers + 1].upper()
     if (
-        start == "ATG"
+        start == user_start_codon
         and stop == "TAG"
-        or start == "ATG"
+        or start == user_start_codon
         and stop == "TAA"
-        or start == "ATG"
+        or start == user_start_codon
         and stop == "TGA"
     ):
         return True
@@ -38,13 +38,16 @@ def check_ali(seq: str) -> bool:
         return False
 
 
-def look_ATG_frameshift(denovo: str, nchit: str) -> (str, int):
+def look_ATG_frameshift(
+    denovo: str, nchit: str, user_start_codon: str
+) -> tuple[str, int]:
     """
     This function checks if an ATG start codon is present within the first 20 nucleotides of a given aligned homolog sequence.
 
     The function scans the first 20 nucleotides (or the length of the sequence, whichever is shorter) of the alignment to see if
     any 3 consecutive nucleotides form the start codon 'ATG'. If an 'ATG' is found, the function updates the status to 'S'
     (indicating the presence of an ATG) and returns the position of the first occurrence of the 'ATG' codon.
+    ! Now i changed as reviewer asked : search for user start codon, that is not necessarily an ATG.
 
     If no 'ATG' is found within the first 20 nucleotides, the function returns the default status 'A' (absence of ATG) and
     the position is set to -20, indicating that no valid start codon was detected.
@@ -74,12 +77,12 @@ def look_ATG_frameshift(denovo: str, nchit: str) -> (str, int):
             nucl = ""
             nucl += nchit[compteur_pos].upper()
             # Look for Start
-            if nucl == "A":
+            if nucl == user_start_codon[0]:  # oldly : "A"
                 for compteur_pos_next in range(compteur_pos + 1, len(nchit)):
                     if nchit[compteur_pos_next] != "-":
                         nucl += nchit[compteur_pos_next].upper()
                     if len(nucl) == 3:
-                        if nucl == "ATG":
+                        if nucl == user_start_codon:  # oldly : "ATG":
                             pos_ATG_in_ali = compteur_pos
                             presence_atg = "S"
                         break
@@ -88,9 +91,9 @@ def look_ATG_frameshift(denovo: str, nchit: str) -> (str, int):
     return presence_atg, pos_ATG_in_ali
 
 
-def searchATG(alignment: list) -> (str, int):
+def searchATG(alignment: list, user_start_codon: str) -> tuple[str, int]:
     """
-    Search for the presence of the ATG start codon in an alignment of sequences.
+    Search for the presence of the ATG start codon (or other, according now to user choice) in an alignment of sequences.
 
     This function examines an alignment of two sequences: a "denovo" gene sequence and a corresponding homologous sequence ("nchit").
     It looks for the presence of the ATG start codon within the homologous sequence (nchit), accounting for gaps in the alignment.
@@ -126,8 +129,10 @@ def searchATG(alignment: list) -> (str, int):
             start_nchit += nchit[numbers_2].upper()
             if len(start_nchit) == 3:
                 break
-    if start_nchit != "ATG":
-        presence_ATG, start_atg_in_ali = look_ATG_frameshift(denovo, nchit)
+    if start_nchit != user_start_codon:
+        presence_ATG, start_atg_in_ali = look_ATG_frameshift(
+            denovo, nchit, user_start_codon
+        )
     else:
         presence_ATG = "P"
 
@@ -240,7 +245,7 @@ def calculate_with_schmidt_similarity_score(ali_denovo: str, ali_homolog: str) -
             if dico_denovo[i] == dico_homolog[i]:  # add + 1 for the last correct nucl
                 nb_correct_frame += 1
         # if for a given position a frame is similar for the two seqs then the score is implemented.
-        if dico_denovo[i] == dico_homolog[i] and stop_scoring is not True:
+        if dico_denovo[i] == dico_homolog[i] and not stop_scoring:
             nb_correct_frame += 1
         if dico_denovo[i] != "n":
             nb_position += 1
@@ -321,7 +326,7 @@ def calculate_with_schmidt_similarity_score_with_shifted_start(
             if dico_denovo[i] == dico_homolog[i]:  # add + 1 for the last correct nucl
                 nb_correct_frame += 1
         # if for a given position a frame is similar for the two seqs then the score is implemented.
-        if dico_denovo[i] == dico_homolog[i] and stop_scoring is not True:
+        if dico_denovo[i] == dico_homolog[i] and not stop_scoring:
             nb_correct_frame += 1
         if dico_denovo[i] != "n":
             nb_position += 1
@@ -331,7 +336,7 @@ def calculate_with_schmidt_similarity_score_with_shifted_start(
     return score_schmidt
 
 
-def searchIndels(alignment: list, start_atg_in_target: int) -> (int, str):
+def searchIndels(alignment: list, start_atg_in_target: int) -> tuple[int, str]:
     """
     Search for indels (insertions and deletions) in the alignment and calculate the frameshift score.
 
@@ -425,7 +430,7 @@ def searchSubs(alignment: list) -> int:
 
 def searchPreStop(
     alignment: list, perc_seq_accepted: float, start_atg_in_target: int
-) -> (str, int):
+) -> tuple[str, int]:
     """
     Searches for a premature stop codon in the homolog (nchit) sequence within an aligned region, based on a given threshold.
 
@@ -516,12 +521,12 @@ def measure_size_intron(denovo_seq: str) -> int:
     """
     size_intron = 0
     for i in denovo_seq:
-        if i.islower() is True:
+        if i.islower():
             size_intron += 1
     return size_intron
 
 
-def splice_alignment(alignment: list) -> (list, list):
+def splice_alignment(alignment: list) -> tuple[list, list]:
     """
     Splices alignments that contain introns, extracting the intronic regions and removing them from the alignment.
 
@@ -560,7 +565,7 @@ def splice_alignment(alignment: list) -> (list, list):
             else:
                 seq_intron += nucl_denovo
         else:
-            if nucl_denovo.islower() is False:
+            if not nucl_denovo.islower():
                 if seq_intron != "":
                     list_introns.append(seq_intron)
                     seq_intron = ""
@@ -744,16 +749,16 @@ def get_unspliced_seq(alignment: list) -> str:
             # the next line makes sure we lower the nucleotides that are alined to an intron with a "-" in the denovo
             if (
                 len(unspliced_nchit) > 0
-                and unspliced_nchit[len(unspliced_nchit) - 1].islower() is True
+                and unspliced_nchit[len(unspliced_nchit) - 1].islower()
             ):
                 new_nucl_hit = nucl_hit.lower()
                 unspliced_nchit += new_nucl_hit
             else:
                 unspliced_nchit += nucl_hit
         else:
-            if nucl_denovo.islower() is False:
+            if not nucl_denovo.islower():
                 new_nucl_hit = nucl_hit.upper()
-            elif nucl_denovo.islower() is True:
+            elif nucl_denovo.islower():
                 new_nucl_hit = nucl_hit.lower()
             else:
                 new_nucl_hit = nucl_hit
@@ -800,28 +805,24 @@ def place_lower_letter(alignment: list, denovo_seq_with_intron: str) -> list:
 
 def is_ali_empty(alignment: list) -> bool:
     """
-    This function checks if the given alignment is empty by attempting to access the first element of the alignment.
+    This function checks if the given alignment is empty
     It returns True if the alignment is empty, and False if it contains at least one sequence.
 
     Parameters:
     -----------
     alignment : list
         A list containing sequences (e.g., denovo and homologous sequences).
-        This function checks if the first sequence (alignment[0]) exists.
 
     Returns:
     --------
     bool
-        Returns True if the alignment is empty (i.e., no sequence at index 0), otherwise returns False.
+        Returns True if the alignment is empty, otherwise returns False.
     """
-    try:
-        _ = alignment[0]
-        return False
-    except:
-        return True
+    return not alignment
 
 
 def main_alignment_function(
+    user_start_codon: str,
     pop_species_name: str,
     dico_name_size_denovo: dict,
     dico_denovo_best_hit: dict,
@@ -911,11 +912,11 @@ def main_alignment_function(
                     alignment = aligner.align(upper_char_denovo_seq, nchit_seq)  # ***
                     intron = True
 
-            if alignment is not False and is_ali_empty(alignment):
+            if alignment and is_ali_empty(alignment):
                 alignment = False
 
             # if a correct alignment is now stored in the variable "alignment".
-            if alignment is not False:
+            if alignment:
                 unspliced_target = "NA"
                 if len(denovo_seq) < 500:
                     # we sort to get the best alignment only if the sequences are small otherwise it is too long.
@@ -924,16 +925,16 @@ def main_alignment_function(
                 for ali in alignment:  # *** added sorted
                     ali_count += 1
                     # an ali is correct if the ATG and stop is not broken by gap in the aligned de novo. Arbitrary.
-                    correct_ali = check_ali(ali[0])
-                    if correct_ali is True:
+                    correct_ali = check_ali(ali[0], user_start_codon)
+                    if correct_ali:
                         alignment = ali
                         break
                     if ali_count > 5000:
                         break
-                if correct_ali is False:
+                if not correct_ali:
                     alignment = alignment[0]
                     score += 1
-                if intron is True:
+                if intron:
                     # In the alignment, lower letters of the denovo where it is intronic.
                     alignment = place_lower_letter(alignment, denovo_seq)
                     # this function in order to get the homologous hit with lower cases when the seq aligns to the denovo intron
@@ -942,7 +943,7 @@ def main_alignment_function(
                     alignment, list_introns = splice_alignment(alignment)
                 spliced_target = alignment[1]
                 denovo_in_ali = alignment[0]
-                ATG, start_atg_in_target = searchATG(alignment)
+                ATG, start_atg_in_target = searchATG(alignment, user_start_codon)
                 stop = searchStop(alignment)
                 indels, frameshift = searchIndels(alignment, start_atg_in_target)
                 nb_subs = searchSubs(alignment)

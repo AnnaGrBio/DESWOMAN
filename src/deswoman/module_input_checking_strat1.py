@@ -1,6 +1,5 @@
 import os
 from Bio import SeqIO
-from deswoman.module_graphical_interface_strat1 import my_graphical_interface_strategy1
 from deswoman.module_handle_config_file import my_config_file_extract_parameters
 from deswoman.module_colors import *
 
@@ -487,6 +486,25 @@ def is_gtf_strat1(filename: str) -> bool:
                 correct_gtf = True
             break
     return correct_gtf
+
+
+def validate_start_codon(dico_variables : dict) -> bool:
+    value_param = dico_variables["start_codon"]
+    if type(value_param) == str:
+        if len(value_param) == 3:
+            is_dna = all(c in "atgc" for c in value_param.lower())
+            if is_dna == True:
+                value_param = value_param.upper()
+                return True
+            else:
+                print (BRIGHT_RED + "ERROR... THE START CODON " + RESET + value_param + BRIGHT_RED + " MUST CONSIST OF NUCLEOTIDES BASES (A,T,G or C) ..." + RESET)
+                return False
+        else:
+            print (BRIGHT_RED + "ERROR... THE START CODON " + RESET + value_param + BRIGHT_RED + " MUST CONSIST OF 3 NUCLEOTIDES ..." + RESET)
+            return False
+    else:
+        print (BRIGHT_RED + "ERROR... THE ORF CHOICE MUST BE A STRING" + RESET )
+        return False
 
 
 def search_liste_name_target_genome_strat1(
@@ -1003,6 +1021,7 @@ def display_parameters_strat1(dico_variables: dict) -> None:
         + RESET
         + str(dico_variables["transcript_overlap"])
     )
+    print (BRIGHT_GREEN + "Start codon : " + RESET + str(dico_variables["start_codon"]))
     for option in dico_variables["ORFs_choice"]:
         if option[0] == "utr_size":
             if option[1] != 0:
@@ -1231,6 +1250,7 @@ def assess_parameters_strat1(link_config: str) -> (bool, dict):
 
     RUN_PYTHON = True
     if link_config == False:
+        from deswoman.module_graphical_interface_strat1 import my_graphical_interface_strategy1
         dico_variables = my_graphical_interface_strategy1()  # dico_variables is retrived from the parameters chosen by the user in the graphical interface
         display_welcome()
     else:
@@ -1266,6 +1286,14 @@ def assess_parameters_strat1(link_config: str) -> (bool, dict):
                 + "ERROR : The genome folder contains 0 outgroup genomes (min required : 1)"
                 + RESET
             )
+    if RUN_PYTHON == True:
+        # double check the start codon is correct
+        RUN_PYTHON = validate_start_codon(dico_variables)
+    if RUN_PYTHON == True:
+        # make sure codon start is ATG in case user take kozac_highest
+        if dico_variables["ORFs_choice"][0][0] == "kozac_highest" and dico_variables["start_codon"] != "ATG":
+            RUN_PYTHON = False
+            print (BRIGHT_RED + "ERROR : if the ORF choice is kozac_highest, the start codon must be ATG." + RESET)
     if RUN_PYTHON == True:
         # make sure the dataset for BLAST contain DNA and proteins
         RUN_PYTHON = assess_blast_datasets_strat1(dico_variables, RUN_PYTHON)

@@ -1,8 +1,7 @@
-from tkinter import *
 import customtkinter
-from tkinter.filedialog import *
-from tkinter import filedialog
-
+from tkinter import Tk, Label, Button, StringVar, IntVar, Entry, Spinbox, Canvas, PhotoImage, CENTER
+from tkinter.filedialog import askopenfilename, askdirectory
+import tkinter.filedialog as filedialog
 
 ###########################
 # window left : Input data
@@ -588,12 +587,26 @@ def graphical_filter_genic_transcripts_strat2(
     return var_filter_genic
 
 
+def graphical_start_codon(
+    win, sidebar_frame_right: customtkinter.CTkFrame, my_font: tuple
+) -> StringVar:
+    label = customtkinter.CTkLabel(
+        sidebar_frame_right, text="Enter start codon : ", font=my_font
+    ).place(relx=0.02, rely=0.97, anchor="w")
+    value_ref_name = StringVar(value="ATG")
+    entree = Entry(sidebar_frame_right, textvariable=value_ref_name)
+    entree.place(relx=0.47, rely=0.965, anchor="w")
+    entree.bind("<KeyRelease>", lambda e: value_ref_name.get())
+    return value_ref_name
+
+
 ###########################
 # window bottom left : Step 3 optional parameters
 ###########################
 
 
 def my_graphical_interface_strategy2():
+
     """
     Creates and displays the graphical user interface (GUI) for strategy 2 using the customtkinter library.
 
@@ -701,6 +714,7 @@ def my_graphical_interface_strategy2():
         "link_database_outgroup_nucl": "",
         "TPM_threeshold": 0.5,
         "transcript_overlap": ["intergenic"],
+        "start_codon": "ATG",
         "ORFs_choice": [["longest"], ["duplicate_handle"], ["utr_size", 0, 0]],
         "filter_genic": False,
         "filter_TE": "False",
@@ -739,11 +753,13 @@ def my_graphical_interface_strategy2():
     var_filter_genic = graphical_filter_genic_transcripts_strat2(
         sidebar_frame_right, my_font
     )
+    var_start_codon = graphical_start_codon(win, sidebar_frame_right, my_font)
 
     ### outputs
     win.mainloop()
     dico_file_and_dir["query"] = value_ref_name.get()
     dico_file_and_dir["TPM_threeshold"] = float(var_TPM.get())
+    dico_file_and_dir["start_codon"] = str(var_start_codon.get())
     if (
         var_intergenic.get() == 0
         and "intergenic" in dico_file_and_dir["transcript_overlap"]
@@ -854,7 +870,7 @@ def my_graphical_interface_strategy2():
             if "utr_size" in dico_file_and_dir["ORFs_choice"][i]:
                 dico_file_and_dir["ORFs_choice"][i][1] = var_5UTR.get()
                 already_present = True
-        if already_present == False:
+        if not already_present:
             utr_5_value = var_5UTR.get()
             dico_file_and_dir["ORFs_choice"].append(["utr_size", utr_5_value, 0])
 
@@ -864,7 +880,7 @@ def my_graphical_interface_strategy2():
             if "utr_size" in dico_file_and_dir["ORFs_choice"][i]:
                 dico_file_and_dir["ORFs_choice"][i][2] = var_3UTR.get()
                 already_present = True
-        if already_present == False:
+        if not already_present:
             utr_3_value = var_3UTR.get()
             dico_file_and_dir["ORFs_choice"].append(["utr_size", 0, utr_3_value])
 

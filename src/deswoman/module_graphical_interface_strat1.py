@@ -1,8 +1,7 @@
-from tkinter import *
 import customtkinter
-from tkinter.filedialog import *
-from tkinter import filedialog
-
+from tkinter import Tk, Label, Button, StringVar, IntVar, Entry, Spinbox, Canvas, PhotoImage, CENTER
+from tkinter.filedialog import askopenfilename, askdirectory
+import tkinter.filedialog as filedialog
 
 ###########################
 # window top left : Input data
@@ -691,6 +690,19 @@ def graphical_filter_genic_transcripts_strat1(
     return var_filter_genic
 
 
+def graphical_start_codon(
+    win, sidebar_frame_right: customtkinter.CTkFrame, my_font: tuple
+) -> StringVar:
+    label = customtkinter.CTkLabel(
+        sidebar_frame_right, text="Enter start codon : ", font=my_font
+    ).place(relx=0.02, rely=0.97, anchor="w")
+    value_ref_name = StringVar(value="ATG")
+    entree = Entry(sidebar_frame_right, textvariable=value_ref_name)
+    entree.place(relx=0.47, rely=0.965, anchor="w")
+    entree.bind("<KeyRelease>", lambda e: value_ref_name.get())
+    return value_ref_name
+
+
 ###########################
 # window bottom left : Step 3 optional parameters
 ###########################
@@ -833,9 +845,9 @@ def graphical_percent_pos_stop_strat1(
         master=sidebar_frame_south,
         from_=0,
         to=100,
-        command=lambda value,
-        window=sidebar_frame_south,
-        dico=dico_file_and_dir: graphical_slider_event_strat1(value, window, dico),
+        command=lambda value, window=sidebar_frame_south, dico=dico_file_and_dir: (
+            graphical_slider_event_strat1(value, window, dico)
+        ),
     ).place(relx=0.02, rely=0.73, anchor="w")
 
 
@@ -907,8 +919,9 @@ def my_graphical_interface_strategy1() -> dict:
     sidebar_frame_left.grid_rowconfigure(4, weight=1)
 
     sidebar_frame_right = customtkinter.CTkFrame(
-        master=win, width=420, height=600, corner_radius=5
+        master=win, width=420, height=640, corner_radius=5
     )
+    # sidebar_frame_right.place(relx = 0.54, rely = 0.0, relheight=1.0, anchor = 'nw')
     sidebar_frame_right.place(relx=0.54, rely=0.445, anchor="w")
     sidebar_frame_right.grid_rowconfigure(4, weight=1)
 
@@ -952,6 +965,7 @@ def my_graphical_interface_strategy1() -> dict:
         "link_database_outgroup_nucl": "",
         "TPM_threeshold": 0.5,
         "transcript_overlap": ["intergenic"],
+        "start_codon": "ATG",
         "ORFs_choice": [["longest"], ["duplicate_handle"], ["utr_size", 0, 0]],
         "filter_genic": False,
         "filter_TE": "False",
@@ -993,6 +1007,7 @@ def my_graphical_interface_strategy1() -> dict:
     var_filter_genic = graphical_filter_genic_transcripts_strat1(
         sidebar_frame_right, my_font
     )
+    var_start_codon = graphical_start_codon(win, sidebar_frame_right, my_font)
     graphical_percent_pos_stop_strat1(sidebar_frame_south, my_font, dico_file_and_dir)
 
     # step 3
@@ -1003,6 +1018,7 @@ def my_graphical_interface_strategy1() -> dict:
     win.mainloop()
     dico_file_and_dir["query"] = value_ref_name.get()
     dico_file_and_dir["TPM_threeshold"] = float(var_TPM.get())
+    dico_file_and_dir["start_codon"] = str(var_start_codon.get())
     if (
         var_intergenic.get() == 0
         and "intergenic" in dico_file_and_dir["transcript_overlap"]
